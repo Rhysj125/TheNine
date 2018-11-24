@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Assets.Standard_Assets.Items
+{
+    public abstract class Item
+    {
+
+        private int ID;
+        //Model
+
+        public void spawn()
+        {
+
+        }
+    }
+}

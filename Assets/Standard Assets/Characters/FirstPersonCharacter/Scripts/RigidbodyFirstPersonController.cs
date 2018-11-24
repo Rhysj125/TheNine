@@ -8,7 +8,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
 	[RequireComponent(typeof (CapsuleCollider))]
 	public class RigidbodyFirstPersonController : MonoBehaviour
 	{
-		[Serializable]
+        public Player player = new Player();
+
+        [Serializable]
 		public class MovementSettings
 		{
 			public float ForwardSpeed = 8.0f;   // Speed when walking forward
@@ -120,6 +122,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 		private void Start()
 		{
+            movementSettings.ForwardSpeed = player.GetMovementSpeed();
+
 			m_RigidBody = GetComponent<Rigidbody>();
 			m_Capsule = GetComponent<CapsuleCollider>();
 			mouseLook.Init (transform, cam.transform);
@@ -128,7 +132,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 		private void Update()
 		{
-			RotateView();
+            RotateView();
 
 			if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
 			{
@@ -163,6 +167,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
                         interactable.GoBack();
                     }
                 }
+
+                player.IncreaseSpeed(1);
+                movementSettings.ForwardSpeed = player.GetMovementSpeed();
+
             }
 		}
 
@@ -241,7 +249,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 		private Vector2 GetInput()
 		{
-			
 			Vector2 input = new Vector2
 				{
 					x = CrossPlatformInputManager.GetAxis("Horizontal"),

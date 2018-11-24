@@ -17,6 +17,11 @@ public class GenerateRoom : MonoBehaviour {
         buildMap();
 	}
 
+    public void Start()
+    {
+        CreateRoom();
+    }
+
 	private void mapRoom()
 	{
 

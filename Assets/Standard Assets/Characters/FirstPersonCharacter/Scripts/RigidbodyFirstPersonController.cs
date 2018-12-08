@@ -8,12 +8,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
 	[RequireComponent(typeof (CapsuleCollider))]
 	public class RigidbodyFirstPersonController : MonoBehaviour
 	{
-        public Player player = new Player();
 
         [Serializable]
 		public class MovementSettings
 		{
-			public float ForwardSpeed = 8.0f;   // Speed when walking forward
+            public float ForwardSpeed = Player.GetInstance().GetMovementSpeed();   // Speed when walking forward
 			public float BackwardSpeed = 4.0f;  // Speed when walking backwards
 			public float StrafeSpeed = 4.0f;    // Speed when walking sideways
 			public float RunMultiplier = 2.0f;   // Speed when sprinting
@@ -122,7 +121,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 		private void Start()
 		{
-            movementSettings.ForwardSpeed = player.GetMovementSpeed();
+            movementSettings.ForwardSpeed = Player.GetInstance().GetMovementSpeed();
 
 			m_RigidBody = GetComponent<Rigidbody>();
 			m_Capsule = GetComponent<CapsuleCollider>();

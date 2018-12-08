@@ -2,14 +2,25 @@
 
     private static readonly Player INSTANCE = new Player();
 
+    //Constants
     private const int MAX_SPEED = 20;
     private const int MAX_HEALTH = 500;
+    private const float MAX_RELOAD_SPEED = 10;
+    private const float MAX_FIRERATE = 10;
 
-    private int maxHealthPoints;
-    private int currentHealth;
-    private int ammo;
-    private int movementSpeed;
-    
+    //Health related stats
+    public int MaxHealthPoints { get; private set; }
+    public int CurrentHealth { get; private set; }
+
+    //Ammo related stats
+    public int AmmoCapacity { get; private set; }
+    public int AmmoCount { get; private set; }
+
+    //Speed related stats
+    public float MovementSpeed { get; private set; }
+    public float ReloadSpeed { get; private set; }
+    public float FireRate { get; private set; }
+
     public static Player GetInstance()
     {
         return INSTANCE;
@@ -17,51 +28,64 @@
 
     private Player()
     {
-        maxHealthPoints = 100;
-        currentHealth = maxHealthPoints;
-        ammo = 10;
-        movementSpeed = 10;
+        MaxHealthPoints = 100;
+        CurrentHealth = MaxHealthPoints;
+
+        AmmoCapacity = 10;
+        AmmoCount = AmmoCapacity;
+
+        MovementSpeed = 10;
+        ReloadSpeed = 10;
+        FireRate = 10;
     }
 
-    public void TakeDamage(int damage)
+    /// <summary>
+    /// Player takes damage and if the player dies returns true;
+    /// </summary>
+    /// <param name="damage"></param>
+    /// <returns></returns>
+    public bool TakeDamage(int damage)
     {
         if(damage > 0)
         {
-            currentHealth -= damage;
+            CurrentHealth -= damage;
         }
 
-        if(maxHealthPoints >= 0)
+        if(CurrentHealth >= 0)
         {
             //Player dies
+            return true;
         }
+
+        return false;
     }
 
-    public int GetMovementSpeed()
+    public void IncreaseMovementSpeed(float additionalSpeed)
     {
-        return movementSpeed;
-    }
-
-    public void IncreaseSpeed(int additionalSpeed)
-    {
-        if (movementSpeed + additionalSpeed < MAX_SPEED)
+        if (MovementSpeed + additionalSpeed < MAX_SPEED)
         {
-            movementSpeed += additionalSpeed;
+            MovementSpeed += additionalSpeed;
         }
         else
         {
-            movementSpeed = MAX_SPEED;
+            MovementSpeed = MAX_SPEED;
         }
     }
 
     public void IncreaseHealth(int additionalHealth)
     {
-        if(maxHealthPoints + additionalHealth < MAX_HEALTH)
+        if(MaxHealthPoints + additionalHealth < MAX_HEALTH)
         {
-            maxHealthPoints += additionalHealth;
+            MaxHealthPoints += additionalHealth;
         }
         else
         {
-            maxHealthPoints = MAX_HEALTH;
+            MaxHealthPoints = MAX_HEALTH;
         }
+    }
+
+    public void IncreaseReloadSpeed(float additonalSpeed)
+    {
+        
     }
 }

@@ -30,7 +30,7 @@
                     break;
 
                 case Stat.MovementSpeed:
-                    Player.GetInstance().IncreaseSpeed((int)value);
+                    Player.GetInstance().IncreaseMovementSpeed(value);
                     break;
 
                 case Stat.ReloadSpeed:

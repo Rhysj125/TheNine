@@ -15,6 +15,7 @@
     //Ammo related stats
     public int AmmoCapacity { get; private set; }
     public int AmmoCount { get; private set; }
+    public int ShotCount { get; private set; }
 
     //Speed related stats
     public float MovementSpeed { get; private set; }
@@ -33,6 +34,7 @@
 
         AmmoCapacity = 10;
         AmmoCount = AmmoCapacity;
+        ShotCount = 1;
 
         MovementSpeed = 10;
         ReloadSpeed = 10;
@@ -72,7 +74,7 @@
         }
     }
 
-    public void IncreaseHealth(int additionalHealth)
+    public void IncreaseMaxHealth(int additionalHealth)
     {
         if(MaxHealthPoints + additionalHealth < MAX_HEALTH)
         {
@@ -81,6 +83,33 @@
         else
         {
             MaxHealthPoints = MAX_HEALTH;
+        }
+    }
+
+    public void Shoot()
+    {
+        AmmoCount -= ShotCount;
+
+        if(AmmoCount <= 0)
+        {
+            Reload();
+        }
+    }
+
+    public void Reload()
+    {
+        AmmoCount = AmmoCapacity;
+    }
+
+    public void Heal(int amount)
+    {
+        if(CurrentHealth + amount > MAX_HEALTH)
+        {
+            CurrentHealth += amount;
+        }
+        else
+        {
+            CurrentHealth = MAX_HEALTH;
         }
     }
 

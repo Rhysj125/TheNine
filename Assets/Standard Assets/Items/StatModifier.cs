@@ -26,7 +26,7 @@
                     break;
 
                 case Stat.Health:
-                    Player.GetInstance().IncreaseHealth((int)value);
+                    Player.GetInstance().IncreaseMaxHealth((int)value);
                     break;
 
                 case Stat.MovementSpeed:

@@ -12,7 +12,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [Serializable]
 		public class MovementSettings
 		{
-            public float ForwardSpeed = Player.GetInstance().GetMovementSpeed();   // Speed when walking forward
+            public float ForwardSpeed = Player.GetInstance().MovementSpeed;   // Speed when walking forward
 			public float BackwardSpeed = 4.0f;  // Speed when walking backwards
 			public float StrafeSpeed = 4.0f;    // Speed when walking sideways
 			public float RunMultiplier = 2.0f;   // Speed when sprinting
@@ -121,7 +121,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 		private void Start()
 		{
-            movementSettings.ForwardSpeed = Player.GetInstance().GetMovementSpeed();
+            movementSettings.ForwardSpeed = Player.GetInstance().MovementSpeed;
 
 			m_RigidBody = GetComponent<Rigidbody>();
 			m_Capsule = GetComponent<CapsuleCollider>();
@@ -131,29 +131,33 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 		private void Update()
 		{
+            movementSettings.ForwardSpeed = Player.GetInstance().MovementSpeed;
+
             RotateView();
 
-			if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
-			{
-				m_Jump = true;
-			}
-			else if (Input.GetMouseButtonDown(1))
-			{
-				Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-				RaycastHit hit;
+            if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
+            {
+                m_Jump = true;
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
 
-				if(Physics.Raycast(ray, out hit, 2))
-				{
-					Interactable interactable = hit.collider.GetComponent<Interactable>();
+                if (Physics.Raycast(ray, out hit, 2))
+                {
+                    Interactable interactable = hit.collider.GetComponent<Interactable>();
 
                     if (interactable != null)
                     {
                         interactable.GoForward();
                     }
-				}
-			}
+                }
+            }
             else if (Input.GetMouseButtonDown(0))
             {
+                Player.GetInstance().Shoot();
+
                 Ray ray = cam.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
@@ -166,10 +170,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
                         interactable.GoBack();
                     }
                 }
-
-                player.IncreaseSpeed(1);
-                movementSettings.ForwardSpeed = player.GetMovementSpeed();
-
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                Player.GetInstance().Reload();
             }
 		}
 

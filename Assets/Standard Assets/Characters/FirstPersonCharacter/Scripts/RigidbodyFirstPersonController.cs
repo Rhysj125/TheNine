@@ -8,10 +8,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
 	[RequireComponent(typeof (CapsuleCollider))]
 	public class RigidbodyFirstPersonController : MonoBehaviour
 	{
-		[Serializable]
+
+        [Serializable]
 		public class MovementSettings
 		{
-			public float ForwardSpeed = 8.0f;   // Speed when walking forward
+            public float ForwardSpeed = Player.GetInstance().MovementSpeed;   // Speed when walking forward
 			public float BackwardSpeed = 4.0f;  // Speed when walking backwards
 			public float StrafeSpeed = 4.0f;    // Speed when walking sideways
 			public float RunMultiplier = 2.0f;   // Speed when sprinting
@@ -89,7 +90,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		private Vector3 m_GroundContactNormal;
 		private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded;
 
-
 		public Vector3 Velocity
 		{
 			get { return m_RigidBody.velocity; }
@@ -120,6 +120,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 		private void Start()
 		{
+            movementSettings.ForwardSpeed = Player.GetInstance().MovementSpeed;
+
 			m_RigidBody = GetComponent<Rigidbody>();
 			m_Capsule = GetComponent<CapsuleCollider>();
 			mouseLook.Init (transform, cam.transform);
@@ -128,28 +130,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 		private void Update()
 		{
-			RotateView();
+            movementSettings.ForwardSpeed = Player.GetInstance().MovementSpeed;
 
-			if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
-			{
-				m_Jump = true;
-			}
-			else if (Input.GetMouseButtonDown(1))
-			{
-				Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-				RaycastHit hit;
+            RotateView();
 
-				if(Physics.Raycast(ray, out hit, 2))
-				{
-					Interactable interactable = hit.collider.GetComponent<Interactable>();
-
-                    if (interactable != null)
-                    {
-                        interactable.GoForward();
-                    }
-				}
-			}
-            else if (Input.GetMouseButtonDown(0))
+            if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
+            {
+                m_Jump = true;
+            }
+            else if (Input.GetMouseButtonDown(1))
             {
                 Ray ray = cam.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -160,9 +149,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
                     if (interactable != null)
                     {
-                        interactable.GoBack();
+                        interactable.GoForward();
                     }
                 }
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                Player.GetInstance().Reload();
             }
 		}
 
@@ -216,7 +209,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			m_Jump = false;
 		}
 
-
 		private float SlopeMultiplier()
 		{
 			float angle = Vector3.Angle(m_GroundContactNormal, Vector3.up);
@@ -241,7 +233,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 		private Vector2 GetInput()
 		{
-			
 			Vector2 input = new Vector2
 				{
 					x = CrossPlatformInputManager.GetAxis("Horizontal"),

@@ -6,6 +6,7 @@ public class Level : MonoBehaviour {
     public GameObject room;
     private List<GameObject> rooms = new List<GameObject>();
     private int roomID = 0;
+    private Vector3 spawnPoint;
 
 	// Use this for initialization
 	void Start () {

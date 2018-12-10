@@ -149,7 +149,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
                     if (interactable != null)
                     {
-                        interactable.GoForward();
+
                     }
                 }
             }

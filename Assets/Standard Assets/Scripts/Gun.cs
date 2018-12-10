@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Standard_Assets.Classes;
+using UnityEngine;
 
 namespace Assets.Standard_Assets.Scripts
 {
@@ -62,6 +63,13 @@ namespace Assets.Standard_Assets.Scripts
             if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
             {
                 GameObject target = hit.transform.GetComponent<GameObject>();
+
+                Enemy enemy = hit.transform.GetComponent<Enemy>();
+
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(damage);
+                }
 
                 GameObject ImpactGameObject = Instantiate(ImpactEffect, hit.point, Quaternion.LookRotation(hit.normal));
                 Destroy(ImpactGameObject, 0.5f);

@@ -11,10 +11,14 @@ namespace Assets.Standard_Assets.Scripts
         public Camera fpsCam;
         public ParticleSystem MuzzleFlash;
         public GameObject ImpactEffect;
+        public AudioSource audioSourceGunShot;
+        public AudioSource audioSourceReload;
+        public AudioClip GunShotSound;
 
         private float fireRate = Player.GetInstance().FireRate;
 
         private float nextTimeToFire = 0f;
+        private bool IsReloading;
 
         public void Start()
         {
@@ -24,14 +28,28 @@ namespace Assets.Standard_Assets.Scripts
         private void Gun_OnReload(object sender, System.EventArgs e)
         {
             nextTimeToFire = Time.time + 1f / Player.GetInstance().ReloadSpeed;
+
+            audioSourceReload.PlayDelayed(0.5f);
+            IsReloading = true;
         }
 
         public void Update()
         {
-            if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
+            if (Time.time >= nextTimeToFire)
             {
-                nextTimeToFire = Time.time + 1f / fireRate;
-                Shoot();
+                if (IsReloading)
+                {
+                    audioSourceReload.Stop();
+                    IsReloading = false;
+                }
+
+                if (Input.GetButton("Fire1"))
+                {
+                    nextTimeToFire = Time.time + 1f / fireRate;
+                    Shoot();
+
+                    audioSourceGunShot.PlayOneShot(GunShotSound);
+                }
             }
         }
 
@@ -41,7 +59,7 @@ namespace Assets.Standard_Assets.Scripts
             Player.GetInstance().Shoot();
 
             RaycastHit hit;
-            if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
+            if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
             {
                 GameObject target = hit.transform.GetComponent<GameObject>();
 

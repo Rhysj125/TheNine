@@ -90,7 +90,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		private Vector3 m_GroundContactNormal;
 		private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded;
 
-
 		public Vector3 Velocity
 		{
 			get { return m_RigidBody.velocity; }
@@ -154,23 +153,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     }
                 }
             }
-            else if (Input.GetMouseButtonDown(0))
-            {
-                Player.GetInstance().Shoot();
-
-                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit, 2))
-                {
-                    Interactable interactable = hit.collider.GetComponent<Interactable>();
-
-                    if (interactable != null)
-                    {
-                        interactable.GoBack();
-                    }
-                }
-            }
             else if (Input.GetKeyDown(KeyCode.R))
             {
                 Player.GetInstance().Reload();
@@ -226,7 +208,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			}
 			m_Jump = false;
 		}
-
 
 		private float SlopeMultiplier()
 		{

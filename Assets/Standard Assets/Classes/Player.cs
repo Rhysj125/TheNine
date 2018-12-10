@@ -1,6 +1,10 @@
-﻿public class Player{
+﻿using System;
+
+public class Player{
 
     private static readonly Player INSTANCE = new Player();
+
+    public event EventHandler OnReload;
 
     //Constants
     private const int MAX_SPEED = 20;
@@ -37,7 +41,7 @@
         ShotCount = 1;
 
         MovementSpeed = 10;
-        ReloadSpeed = 10;
+        ReloadSpeed = 0.5f;
         FireRate = 10;
     }
 
@@ -99,6 +103,7 @@
     public void Reload()
     {
         AmmoCount = AmmoCapacity;
+        OnReload.Invoke(this, EventArgs.Empty);
     }
 
     public void Heal(int amount)
@@ -116,5 +121,10 @@
     public void IncreaseReloadSpeed(float additonalSpeed)
     {
         
+    }
+
+    public void IncreaseAmmoCapacity(int amount)
+    {
+        AmmoCapacity += amount;
     }
 }

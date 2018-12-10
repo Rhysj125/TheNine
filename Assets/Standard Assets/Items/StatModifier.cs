@@ -1,6 +1,6 @@
 ﻿namespace Assets.Standard_Assets.Items
 {
-    public enum Stat { Health, MovementSpeed, FireRate, ReloadSpeed, Ammo };
+    public enum Stat { Health, MovementSpeed, FireRate, ReloadSpeed, Ammo, ShotCount };
 
     class StatModifier
     {

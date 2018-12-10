@@ -9,9 +9,9 @@ namespace Assets.Standard_Assets.Scripts
 {
     class UI : MonoBehaviour
     {
-        public Text Health;
-        public Text Ammo;
-        public Text Reload;
+        public Text Health = null;
+        public Text Ammo = null;
+        public Text Reload = null;
 
         public void Start()
         {
@@ -42,7 +42,7 @@ namespace Assets.Standard_Assets.Scripts
             Health.text = "Current Health: " + Player.GetInstance().CurrentHealth.ToString();
             Ammo.text = "Current Ammo: " + Player.GetInstance().AmmoCount.ToString();
 
-            if (Player.GetInstance().AmmoCount <= Math.Floor(Player.GetInstance().AmmoCapacity / 0.5))
+            if (Player.GetInstance().AmmoCount <= Math.Floor(Player.GetInstance().AmmoCapacity * 0.2))
             {
                 Reload.text = "(R) Reload";
             }

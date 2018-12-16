@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public class Player{
 
@@ -11,6 +12,9 @@ public class Player{
     private const int MAX_HEALTH = 500;
     private const float MAX_RELOAD_SPEED = 10;
     private const float MAX_FIRERATE = 10;
+
+    //Position
+    public Vector3 position { get; set; }
 
     //Health related stats
     public int MaxHealthPoints { get; private set; }

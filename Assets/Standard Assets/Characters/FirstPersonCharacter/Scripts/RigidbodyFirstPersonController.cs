@@ -206,7 +206,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
 					StickToGroundHelper();
 				}
 			}
-			m_Jump = false;
+
+            Debug.Log("X: " + transform.position.x.ToString() + ", Y:" + transform.position.y.ToString() + ", Z: " + transform.position.z.ToString());
+            Player.GetInstance().position = transform.position;
+            m_Jump = false;
 		}
 
 		private float SlopeMultiplier()

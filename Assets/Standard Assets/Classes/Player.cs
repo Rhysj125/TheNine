@@ -56,7 +56,9 @@ public class Player{
     /// <returns></returns>
     public bool TakeDamage(int damage)
     {
-        if(damage > 0)
+        Debug.Log("Player Taking Damage");
+
+        if (damage > 0)
         {
             CurrentHealth -= damage;
         }

@@ -59,6 +59,8 @@ namespace Assets.Standard_Assets.Scripts
             MuzzleFlash.Play();
             Player.GetInstance().Shoot();
 
+            Debug.DrawRay(fpsCam.transform.position, fpsCam.transform.forward, Color.green, 10);
+
             RaycastHit hit;
             if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
             {

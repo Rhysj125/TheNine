@@ -9,19 +9,28 @@ namespace Assets.Standard_Assets.Classes
 {
     public abstract class Enemy : MonoBehaviour
     {
+        //Movement properties
         public float BaseHealth = 1;
         public float MovementSpeed = 0.02f;
-        public GameObject model;
-        public NavMeshAgent agent;
+
+        //Attacking properties
+        public int Damage = 10;
+        public float AttackRange = 3f;
+        public float AttackRate = 3f;
+        private float nextAttack = 0f;
+
+        //Others
+        public GameObject Model;
+        public NavMeshAgent Agent;
 
         public void FixedUpdate()
         {
             Move();
+            TryToAttack();
         }
 
         public virtual void TakeDamage(float damage)
         {
-            Debug.Log("Damage: " + damage);
             BaseHealth -= damage;
 
             if(BaseHealth <= 0)
@@ -30,18 +39,33 @@ namespace Assets.Standard_Assets.Classes
             }
         }
 
-        private void Die()
-        {
-            Destroy(model, 0.5f);
-        }
-
         protected virtual void Move()
         {
             //transform.position = Vector3.MoveTowards(model.transform.position, Player.GetInstance().position, MovementSpeed);
 
-            agent.SetDestination(Player.GetInstance().position);
-            Debug.Log("Current Destination: " + agent.destination.ToString());
-            Debug.Log(transform.position.ToString());
+            Agent.SetDestination(Player.GetInstance().position);
+        }
+
+        private void TryToAttack()
+        {
+            if (Time.time > nextAttack)
+            {
+
+                Debug.Log(Vector3.Distance(transform.position, Player.GetInstance().position));
+
+                nextAttack = Time.time + 1 / AttackRate;
+
+                if (Math.Abs(Vector3.Distance(transform.position, Player.GetInstance().position)) <= AttackRange)
+                {
+                    Debug.Log("Attacking");
+                    Player.GetInstance().TakeDamage(Damage);
+                }
+            }
+        }
+
+        private void Die()
+        {
+            Destroy(Model, 0.5f);
         }
     }
 }

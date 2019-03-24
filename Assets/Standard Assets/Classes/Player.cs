@@ -54,7 +54,7 @@ public class Player{
     /// </summary>
     /// <param name="damage"></param>
     /// <returns></returns>
-    public bool TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         Debug.Log("Player Taking Damage");
 
@@ -63,13 +63,10 @@ public class Player{
             CurrentHealth -= damage;
         }
 
-        if(CurrentHealth >= 0)
+        if(CurrentHealth <= 0)
         {
-            //Player dies
-            return true;
+            //die
         }
-
-        return false;
     }
 
     public void IncreaseMovementSpeed(float additionalSpeed)
@@ -129,8 +126,13 @@ public class Player{
         
     }
 
-    public void IncreaseAmmoCapacity(int amount)
+    public void IncreaseAmmoCapacity(int additonalAmmoCapacity)
     {
-        AmmoCapacity += amount;
+        AmmoCapacity += additonalAmmoCapacity;
+    }
+
+    public void IncreaseFireRate(int additionalFireRate)
+    {
+        FireRate += additionalFireRate;
     }
 }

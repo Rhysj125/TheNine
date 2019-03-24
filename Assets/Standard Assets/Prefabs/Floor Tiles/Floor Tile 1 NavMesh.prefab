@@ -74,7 +74,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4230653281120980}
   m_Layer: 0
-  m_Name: Floor Tile 1 1
+  m_Name: Floor Tile 1 NavMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -480,7 +480,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.016666668
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: b8fae33af56cb29428f655b0854a9038, type: 2}
+  m_NavMeshData: {fileID: 0}
 --- !u!136 &136209887085688436
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -16,12 +16,14 @@ namespace Assets.Standard_Assets.Classes
         //Attacking properties
         public int Damage = 10;
         public float AttackRange = 3f;
-        public float AttackRate = 3f;
-        private float nextAttack = 0f;
+        public float ActionRate = 3f;
+        private float nextAction = 0f;
 
         //Others
         public GameObject Model;
         public NavMeshAgent Agent;
+
+        private bool IsAttacking;
 
         public void FixedUpdate()
         {
@@ -41,24 +43,34 @@ namespace Assets.Standard_Assets.Classes
 
         protected virtual void Move()
         {
-            //transform.position = Vector3.MoveTowards(model.transform.position, Player.GetInstance().position, MovementSpeed);
-
-            Agent.SetDestination(Player.GetInstance().position);
+            //Enemy will not move while it is attacking the player
+            if (IsAttacking)
+            {
+                Agent.isStopped = true;
+            }else
+            {
+                Agent.isStopped = false;
+                Agent.SetDestination(Player.GetInstance().position);
+            }
         }
 
         private void TryToAttack()
         {
-            if (Time.time > nextAttack)
+            if (Time.time > nextAction)
             {
 
                 Debug.Log(Vector3.Distance(transform.position, Player.GetInstance().position));
 
-                nextAttack = Time.time + 1 / AttackRate;
+                nextAction = Time.time + 1 / ActionRate;
 
                 if (Math.Abs(Vector3.Distance(transform.position, Player.GetInstance().position)) <= AttackRange)
                 {
-                    Debug.Log("Attacking");
+                    IsAttacking = true;
                     Player.GetInstance().TakeDamage(Damage);
+                }
+                else
+                {
+                    IsAttacking = false;
                 }
             }
         }

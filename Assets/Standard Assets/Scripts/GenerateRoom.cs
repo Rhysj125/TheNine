@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.AI;
 
 public class GenerateRoom : MonoBehaviour {
 
@@ -13,20 +14,25 @@ public class GenerateRoom : MonoBehaviour {
 	public System.Random rand = new System.Random();
     public const int ROOM_SIZE = 10;
 
-	// Use this for initialization
-	public void CreateRoom () {
-        grid = new int[floorSize, floorSize];
-
-		mapRoom();
-        buildMap();
-	}
+    public NavMeshSurface surface;
 
     public void Start()
     {
         CreateRoom();
+
+        surface.BuildNavMesh();
     }
 
-	private void mapRoom()
+    // Use this for initialization
+    public void CreateRoom()
+    {
+        grid = new int[floorSize, floorSize];
+
+        mapRoom();
+        buildMap();
+    }
+
+    private void mapRoom()
 	{
 
 		Queue<int[]> checkedPositions = new Queue<int[]>();

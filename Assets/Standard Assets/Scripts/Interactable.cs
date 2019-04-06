@@ -11,14 +11,4 @@ public class Interactable : MonoBehaviour {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, radius);
     }
-
-    public void GoForward()
-    {
-        GetComponentInParent<Level>().GoForward();
-    }
-
-    public void GoBack()
-    {
-        GetComponentInParent<Level>().GoBackward();
-    }
 }

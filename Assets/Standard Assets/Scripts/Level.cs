@@ -1,42 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Level : MonoBehaviour {
+public class Level {
 
-    public GameObject room;
-    private List<GameObject> rooms = new List<GameObject>();
-    private int roomID = 0;
+    private enum Difficulty { Easy = 1, Normal = 3, Hard = 5 }
 
-	// Use this for initialization
-	void Start () {
-        rooms.Add(room);
-        rooms.Add(room);
-        rooms.Add(room);
-
-        foreach (GameObject currentRoom in rooms)
-        {
-            currentRoom.SetActive(false);
-            GameObject obj = (GameObject) Instantiate(currentRoom, new Vector3(0, 0, 0), Quaternion.identity);
-            obj.transform.parent = transform;
-        }
-	}
-	
-    public void GoForward()
+    private enum Stage
     {
-        if (rooms.Count < roomID)
-        {
-            rooms[roomID].SetActive(false);
-            roomID++;
-            rooms[roomID].SetActive(true);
-        }
+        One = 1,
+        Two = 3,
+        Three = 7,
+        Four = 12,
+        Five = 18,
+        Six = 22,
+        Seven = 25,
+        Eight = 29,
+        Nine = 35
     }
 
-    public void GoBackward()
+    private readonly Level INSTANCE = new Level();
+
+    private Level()
     {
-        if (roomID < 0) { 
-            rooms[roomID].SetActive(false);
-            roomID--;
-            rooms[roomID].SetActive(true);
-        }
+
     }
+
+    public Level GetInstance()
+    {
+        return INSTANCE;
+    }
+
 }

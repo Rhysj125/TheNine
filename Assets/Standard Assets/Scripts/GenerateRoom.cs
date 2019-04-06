@@ -2,35 +2,47 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.AI;
+using Assets.Standard_Assets.Classes;
 
 public class GenerateRoom : MonoBehaviour {
 
-	public int[,] grid = new int[9,9];
+    public int floorSize = 9;
+    public int[,] grid;
 	public float probabilityModifier = 0.8f;
-	public List<GameObject> floorTiles;
+	private List<GameObject> floorTiles;
 	public GameObject walls;
-	private System.Random rand = new System.Random();
+	public System.Random rand = new System.Random();
+    public const int ROOM_SIZE = 10;
 
-	// Use this for initialization
-	public void CreateRoom () {
-		mapRoom();
-        buildMap();
-	}
+    public NavMeshSurface surface;
 
     public void Start()
     {
+        floorTiles = ResourceLoader.GetRoomTiles(1);
         CreateRoom();
+        surface.BuildNavMesh();
+        SpawnEnemies();
     }
 
-	private void mapRoom()
+    // Use this for initialization
+    public void CreateRoom()
+    {
+        grid = new int[floorSize, floorSize];
+
+        mapRoom();
+        buildMap();
+    }
+
+    private void mapRoom()
 	{
 
 		Queue<int[]> checkedPositions = new Queue<int[]>();
 		Queue<int[]> positionsToCheck = new Queue<int[]>();
 		Queue<int[]> nextPassCheck = new Queue<int[]>();
 
-		int x = 4;
-		int y = 4;
+		int x = grid.GetLength(0) / 2;
+		int y = grid.GetLength(1) / 2;
 		float probability = 1;
 		Boolean mapEnd = false;
 
@@ -52,9 +64,9 @@ public class GenerateRoom : MonoBehaviour {
 				{
 					grid[x, y] = 1;
 
-					int[][] newPositions = { x < 8 ? new int[] { x + 1, y} : null,
+					int[][] newPositions = { x < grid.GetLength(0) - 1 ? new int[] { x + 1, y} : null,
 											x > 0 ? new int[] { x - 1, y} : null,
-											y < 8 ? new int[] { x, y + 1} : null,
+											y < grid.GetLength(1) - 1 ? new int[] { x, y + 1} : null,
 											y > 0 ? new int[] { x, y - 1} : null
 											};
 
@@ -107,16 +119,23 @@ public class GenerateRoom : MonoBehaviour {
             {
                 if (grid[i, j] == 1)
                 {
-                    GameObject component = (GameObject) Instantiate(getFloorTile(), new Vector3((i * 10), 0, (j * 10)), Quaternion.identity);
+                    GameObject component = Instantiate(getFloorTile(), new Vector3((i * ROOM_SIZE), 0, (j * ROOM_SIZE)), Quaternion.identity);
                     component.transform.parent = transform;
                 }
                 else
                 {
-                    GameObject component = (GameObject) Instantiate(walls, new Vector3((i * 10) - 5, 5, (j * 10)), Quaternion.identity);
+                    GameObject component = Instantiate(walls, new Vector3((i * ROOM_SIZE) - ROOM_SIZE/2, ROOM_SIZE/2, (j * ROOM_SIZE)), Quaternion.identity);
                     component.transform.parent = transform;
                 }
             }
         }
+    }
+
+    private void SpawnEnemies()
+    {
+        UnityEngine.Object pPrefab = Resources.Load<Enemy>("Prefab/Enemies/Enemy1");
+
+        GameObject enemy = (GameObject)Instantiate(pPrefab, Vector3.zero, Quaternion.identity);
     }
 
 	private GameObject getFloorTile()

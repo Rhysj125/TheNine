@@ -12,12 +12,14 @@ namespace Assets.Standard_Assets.Classes
     class ResourceLoader
     {
 
+        // Base Directory for prefabs.
         private static readonly string RESOURCE_DIR = "Prefabs/";
 
+        // Directories for different types of game resources.
         private static readonly string ENEMY_DIR = RESOURCE_DIR + "Enemies/";
         private static readonly string ROOM_DIR = RESOURCE_DIR + "Floor Tiles/";
         private static readonly string ITEM_DIR = RESOURCE_DIR + "Items/";
-        private static readonly string PORTAL_DIR
+        private static readonly string PORTAL_DIR = RESOURCE_DIR + "Portal";
 
         /// <summary>
         /// Returns a list of GameObject's within the enemy resource folder.
@@ -56,7 +58,7 @@ namespace Assets.Standard_Assets.Classes
 
         public static GameObject GetPortal()
         {
-            return Resources.Load<GameObject>()
+            return Resources.Load<GameObject>(PORTAL_DIR);
         }
 
     }

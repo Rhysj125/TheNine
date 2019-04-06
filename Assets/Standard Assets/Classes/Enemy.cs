@@ -77,9 +77,28 @@ namespace Assets.Standard_Assets.Classes
             }
         }
 
+        IEnumerator<WaitForSeconds> DoDeath() {
+
+            for (;;)
+            {
+                Level.GetInstance().DecrementEnemyCount();
+
+                Destroy(Model, 0.2f);
+                yield return new WaitForSeconds(.2f);
+            }
+        }
+
         private void Die()
         {
-            Destroy(Model, 0.5f);
+            Vector3 currentPosition = Model.transform.position;
+            currentPosition.y += 5;
+
+            Level.GetInstance().DecrementEnemyCount();
+
+            Destroy(Model, 0.2f);
+            new WaitForSeconds(0.2f);
+
+            Instantiate(ResourceLoader.GetItems()[0], currentPosition, Quaternion.identity);
         }
     }
 }

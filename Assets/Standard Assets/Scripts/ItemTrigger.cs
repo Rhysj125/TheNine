@@ -21,11 +21,14 @@ namespace Assets.Standard_Assets.Scripts
         {
             Debug.Log("Trigger Entered");
 
-            //if(other.gameObject.tag == "Player")
-            //{
-            Destroy(this.gameObject);
-            stat.ApplyStatBoost();
-            //}
+            if (other.GetComponent<Rigidbody>() != null)
+            {
+                //if(other.gameObject.tag == "Player")
+                //{
+                Destroy(this.gameObject);
+                stat.ApplyStatBoost();
+                //}
+            }
         }
 
     }

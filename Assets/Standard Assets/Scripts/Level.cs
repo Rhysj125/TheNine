@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Assets.Standard_Assets.Classes;
 
 public class Level {
 
@@ -39,12 +40,13 @@ public class Level {
 
     public void DecrementEnemyCount()
     {
-        NumOfEnemies--;
+    //    NumOfEnemies--;
 
-        if (NumOfEnemies <= 0)
-        {
-            //Do something to spawn portal to next room.
-        }
+    //    if (NumOfEnemies <= 0)
+    //    {
+    //        //Do something to spawn portal to next room.
+    //        //GameObject.Instantiate(ResourceLoader.);
+    //    }
     }
 
 }

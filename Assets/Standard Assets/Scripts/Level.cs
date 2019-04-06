@@ -18,16 +18,33 @@ public class Level {
         Nine = 35
     }
 
-    private readonly Level INSTANCE = new Level();
+    private static readonly Level INSTANCE = new Level();
+
+    private int NumOfEnemies;
 
     private Level()
     {
 
     }
 
-    public Level GetInstance()
+    public static Level GetInstance()
     {
         return INSTANCE;
+    }
+
+    public void IncrementEnemyCount()
+    {
+        NumOfEnemies++;
+    }
+
+    public void DecrementEnemyCount()
+    {
+        NumOfEnemies--;
+
+        if (NumOfEnemies <= 0)
+        {
+            //Do something to spawn portal to next room.
+        }
     }
 
 }

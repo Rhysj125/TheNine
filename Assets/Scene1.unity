@@ -5997,10 +5997,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorSize: 9
   probabilityModifier: 0.8
-  floorTiles:
-  - {fileID: 1672014739802302, guid: 041a1b5e58bfe114c9b4124300b3c2b4, type: 2}
-  - {fileID: 1452173877356738, guid: 6a58df0bfe101bf4fa6043a4a9b9f514, type: 2}
-  - {fileID: 1055379972644350, guid: 228673bb95e5c0d4fb1bc47b0c5e42d5, type: 2}
   walls: {fileID: 151518, guid: 7e8dedf22ad4af74ebdb12c170da9998, type: 2}
   surface: {fileID: 973460459}
 --- !u!4 &1219765406 stripped

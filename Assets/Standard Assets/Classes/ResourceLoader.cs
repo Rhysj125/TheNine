@@ -12,11 +12,12 @@ namespace Assets.Standard_Assets.Classes
     class ResourceLoader
     {
 
-        private static readonly string RESOURCE_DIRECTORY = "Prefabs/";
+        private static readonly string RESOURCE_DIR = "Prefabs/";
 
-        private static readonly string ENEMY_DIRECTORY = RESOURCE_DIRECTORY + "Enemies/";
-        private static readonly string ROOM_DIRECTORY = RESOURCE_DIRECTORY + "Floor Tiles/";
-        private static readonly string ITEM_DIRECTORY = RESOURCE_DIRECTORY + "Items/";
+        private static readonly string ENEMY_DIR = RESOURCE_DIR + "Enemies/";
+        private static readonly string ROOM_DIR = RESOURCE_DIR + "Floor Tiles/";
+        private static readonly string ITEM_DIR = RESOURCE_DIR + "Items/";
+        private static readonly string PORTAL_DIR
 
         /// <summary>
         /// Returns a list of GameObject's within the enemy resource folder.
@@ -25,7 +26,7 @@ namespace Assets.Standard_Assets.Classes
         /// <returns></returns>
         public static List<GameObject> GetEnemies(int level)
         {
-                GameObject[] enemies = Resources.LoadAll<GameObject>(RESOURCE_DIRECTORY + ENEMY_DIRECTORY);
+                GameObject[] enemies = Resources.LoadAll<GameObject>(ENEMY_DIR);
 
                 return enemies.ToList();
         }
@@ -37,9 +38,25 @@ namespace Assets.Standard_Assets.Classes
         /// <returns>List of GameObject of room tiles.</returns>
         public static List<GameObject> GetRoomTiles(int level)
         {
-            GameObject[] roomTiles = Resources.LoadAll<GameObject>(ROOM_DIRECTORY);
+            GameObject[] roomTiles = Resources.LoadAll<GameObject>(ROOM_DIR);
 
             return roomTiles.ToList();
+        }
+
+        /// <summary>
+        /// Returns a list of GameObject's within the Items resource folder.
+        /// </summary>
+        /// <returns>List of GameObject of room tiles.</returns>
+        public static List<GameObject> GetItems()
+        {
+            GameObject[] items = Resources.LoadAll<GameObject>(ITEM_DIR);
+
+            return items.ToList();
+        }
+
+        public static GameObject GetPortal()
+        {
+            return Resources.Load<GameObject>()
         }
 
     }

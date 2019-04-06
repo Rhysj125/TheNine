@@ -133,9 +133,8 @@ public class GenerateRoom : MonoBehaviour {
 
     private void SpawnEnemies()
     {
-        UnityEngine.Object pPrefab = Resources.Load<Enemy>("Prefab/Enemies/Enemy1");
-
-        GameObject enemy = (GameObject)Instantiate(pPrefab, Vector3.zero, Quaternion.identity);
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        Level.GetInstance().IncrementEnemyCount();
     }
 
 	private GameObject getFloorTile()

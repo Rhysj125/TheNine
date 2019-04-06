@@ -35,6 +35,8 @@ namespace Assets.Standard_Assets.Classes
         {
             BaseHealth -= damage;
 
+            Debug.Log("Enemy Taken Damage");
+
             if(BaseHealth <= 0)
             {
                 Die();
@@ -59,7 +61,7 @@ namespace Assets.Standard_Assets.Classes
             if (Time.time > nextAction)
             {
 
-                Debug.Log(Vector3.Distance(transform.position, Player.GetInstance().position));
+                //Debug.Log(Vector3.Distance(transform.position, Player.GetInstance().position));
 
                 nextAction = Time.time + 1 / ActionRate;
 

@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.AI;
+using Assets.Standard_Assets.Classes;
 
 public class GenerateRoom : MonoBehaviour {
 
     public int floorSize = 9;
     public int[,] grid;
 	public float probabilityModifier = 0.8f;
-	public List<GameObject> floorTiles;
+	private List<GameObject> floorTiles;
 	public GameObject walls;
 	public System.Random rand = new System.Random();
     public const int ROOM_SIZE = 10;
@@ -18,9 +19,10 @@ public class GenerateRoom : MonoBehaviour {
 
     public void Start()
     {
+        floorTiles = ResourceLoader.GetRoomTiles(1);
         CreateRoom();
-
         surface.BuildNavMesh();
+        SpawnEnemies();
     }
 
     // Use this for initialization
@@ -127,6 +129,13 @@ public class GenerateRoom : MonoBehaviour {
                 }
             }
         }
+    }
+
+    private void SpawnEnemies()
+    {
+        UnityEngine.Object pPrefab = Resources.Load<Enemy>("Prefab/Enemies/Enemy1");
+
+        GameObject enemy = (GameObject)Instantiate(pPrefab, Vector3.zero, Quaternion.identity);
     }
 
 	private GameObject getFloorTile()

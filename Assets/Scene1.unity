@@ -99,7 +99,7 @@ NavMeshSettings:
     serializedVersion: 2
     agentTypeID: 0
     agentRadius: 0.5
-    agentHeight: 2
+    agentHeight: 1.22
     agentSlope: 45
     agentClimb: 0.4
     ledgeDropHeight: 0
@@ -815,8 +815,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stat:
-    stat: 0
-    value: 100
+    stat: 4
+    value: 5
 --- !u!1 &749428286
 GameObject:
   m_ObjectHideFlags: 0
@@ -1233,11 +1233,28 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 973460458}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 903b7c4e9924fb04792ca1458c0ea695, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.016666668
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 0}
 --- !u!4 &973460461
 Transform:
   m_ObjectHideFlags: 0
@@ -5985,6 +6002,7 @@ MonoBehaviour:
   - {fileID: 1452173877356738, guid: 6a58df0bfe101bf4fa6043a4a9b9f514, type: 2}
   - {fileID: 1055379972644350, guid: 228673bb95e5c0d4fb1bc47b0c5e42d5, type: 2}
   walls: {fileID: 151518, guid: 7e8dedf22ad4af74ebdb12c170da9998, type: 2}
+  surface: {fileID: 973460459}
 --- !u!4 &1219765406 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: c6453f8e1f814744d8b94e5a6d1f9942,

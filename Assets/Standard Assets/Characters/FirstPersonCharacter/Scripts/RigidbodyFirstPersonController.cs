@@ -1,3 +1,4 @@
+using Assets.Standard_Assets;
 using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
@@ -6,7 +7,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 {
 	[RequireComponent(typeof (Rigidbody))]
 	[RequireComponent(typeof (CapsuleCollider))]
-	public class RigidbodyFirstPersonController : MonoBehaviour
+	public class RigidbodyFirstPersonController : MonoBehaviour, IDamageable
 	{
 
         [Serializable]
@@ -159,6 +160,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 		}
 
+        void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(Vector3.zero, 2);
+        }
 
 		private void FixedUpdate()
 		{
@@ -206,7 +212,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
 					StickToGroundHelper();
 				}
 			}
-			m_Jump = false;
+
+            //Debug.Log("X: " + transform.position.x.ToString() + ", Y:" + transform.position.y.ToString() + ", Z: " + transform.position.z.ToString());
+            Player.GetInstance().position = transform.position;
+            m_Jump = false;
 		}
 
 		private float SlopeMultiplier()
@@ -282,5 +291,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
 				m_Jumping = false;
 			}
 		}
-	}
+
+        public void TakeDamage(int damage)
+        {
+            Player.GetInstance().TakeDamage(damage);
+        }
+    }
 }

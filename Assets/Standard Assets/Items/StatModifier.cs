@@ -1,10 +1,16 @@
-﻿namespace Assets.Standard_Assets.Items
+﻿using System;
+using UnityEngine;
+
+namespace Assets.Standard_Assets.Items
 {
     public enum Stat { Health, MovementSpeed, FireRate, ReloadSpeed, Ammo, ShotCount };
 
+    [Serializable]
     class StatModifier
     {
+        [SerializeField]
         private Stat stat;
+        [SerializeField]
         private float value;
 
         public StatModifier(Stat _stat, float _value)
@@ -18,11 +24,11 @@
             switch (stat)
             {
                 case Stat.Ammo:
-                    //Player.GetInstance().IncreaseAmmo(value);
+                    Player.GetInstance().IncreaseAmmoCapacity((int)value);
                     break;
 
                 case Stat.FireRate:
-                    //Player.GetInstance().IncreaseFireRate(value);
+                    Player.GetInstance().IncreaseFireRate((int) value);
                     break;
 
                 case Stat.Health:

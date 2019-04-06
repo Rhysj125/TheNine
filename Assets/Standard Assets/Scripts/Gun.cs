@@ -36,6 +36,8 @@ namespace Assets.Standard_Assets.Scripts
 
         public void Update()
         {
+            fireRate = Player.GetInstance().FireRate;
+
             if (Time.time >= nextTimeToFire)
             {
                 if (IsReloading)
@@ -59,6 +61,8 @@ namespace Assets.Standard_Assets.Scripts
             MuzzleFlash.Play();
             Player.GetInstance().Shoot();
 
+            Debug.DrawRay(fpsCam.transform.position, fpsCam.transform.forward, Color.green, 10);
+
             RaycastHit hit;
             if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
             {
@@ -74,9 +78,6 @@ namespace Assets.Standard_Assets.Scripts
                 GameObject ImpactGameObject = Instantiate(ImpactEffect, hit.point, Quaternion.LookRotation(hit.normal));
                 Destroy(ImpactGameObject, 0.5f);
             }
-
-
         }
-
     }
 }

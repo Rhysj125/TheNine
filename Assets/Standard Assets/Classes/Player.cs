@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public class Player{
 
@@ -11,6 +12,9 @@ public class Player{
     private const int MAX_HEALTH = 500;
     private const float MAX_RELOAD_SPEED = 10;
     private const float MAX_FIRERATE = 10;
+
+    //Position
+    public Vector3 position { get; set; }
 
     //Health related stats
     public int MaxHealthPoints { get; private set; }
@@ -50,20 +54,19 @@ public class Player{
     /// </summary>
     /// <param name="damage"></param>
     /// <returns></returns>
-    public bool TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
-        if(damage > 0)
+        Debug.Log("Player Taking Damage");
+
+        if (damage > 0)
         {
             CurrentHealth -= damage;
         }
 
-        if(CurrentHealth >= 0)
+        if(CurrentHealth <= 0)
         {
-            //Player dies
-            return true;
+            //die
         }
-
-        return false;
     }
 
     public void IncreaseMovementSpeed(float additionalSpeed)
@@ -123,8 +126,13 @@ public class Player{
         
     }
 
-    public void IncreaseAmmoCapacity(int amount)
+    public void IncreaseAmmoCapacity(int additonalAmmoCapacity)
     {
-        AmmoCapacity += amount;
+        AmmoCapacity += additonalAmmoCapacity;
+    }
+
+    public void IncreaseFireRate(int additionalFireRate)
+    {
+        FireRate += additionalFireRate;
     }
 }

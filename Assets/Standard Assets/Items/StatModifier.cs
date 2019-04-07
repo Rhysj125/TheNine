@@ -3,44 +3,78 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets.Items
 {
-    public enum Stat { Health, MovementSpeed, FireRate, ReloadSpeed, Ammo, ShotCount };
+    public enum BaseStat { Health, MovementSpeed, FireRate, ReloadSpeed, Ammo, ShotCount };
+    public enum VariableStat { Health, Ammo}
 
     [Serializable]
-    class StatModifier
+    class BaseStatModifier
     {
         [SerializeField]
-        private Stat stat;
+        private BaseStat stat;
         [SerializeField]
         private float value;
 
-        public StatModifier(Stat _stat, float _value)
+        public BaseStatModifier(BaseStat _stat, float _value)
         {
             stat = _stat;
             value = _value;
         }
 
-        public void ApplyStatBoost()
+        public void ApplyStat()
         {
             switch (stat)
             {
-                case Stat.Ammo:
+                case BaseStat.Ammo:
                     Player.GetInstance().IncreaseAmmoCapacity((int)value);
                     break;
 
-                case Stat.FireRate:
+                case BaseStat.FireRate:
                     Player.GetInstance().IncreaseFireRate((int) value);
                     break;
 
-                case Stat.Health:
+                case BaseStat.Health:
                     Player.GetInstance().IncreaseMaxHealth((int)value);
                     break;
 
-                case Stat.MovementSpeed:
+                case BaseStat.MovementSpeed:
                     Player.GetInstance().IncreaseMovementSpeed(value);
                     break;
 
-                case Stat.ReloadSpeed:
+                case BaseStat.ReloadSpeed:
                     //Player.GetInstance().IncreaseReloadSpeed(value);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    [Serializable]
+    class VariableStatModifier
+    {
+        [SerializeField]
+        private VariableStat stat;
+        [SerializeField]
+        private float value;
+
+        public VariableStatModifier(VariableStat _stat, float _value)
+        {
+            stat = _stat;
+            value = _value;
+        }
+
+        public void ApplyStat()
+        {
+            switch (stat)
+            {
+                case VariableStat.Ammo:
+                    throw new NotSupportedException();
+                    //Player.GetInstance().Heal((int)value);
+                    break;
+
+                case VariableStat.Health:
+                    Player.GetInstance().Heal((int)value);
                     break;
 
                 default:

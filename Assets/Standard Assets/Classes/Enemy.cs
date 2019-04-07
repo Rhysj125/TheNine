@@ -58,11 +58,9 @@ namespace Assets.Standard_Assets.Classes
 
         private void TryToAttack()
         {
+            // Ensuring the enemy doesn't attack every update.
             if (Time.time > nextAction)
             {
-
-                //Debug.Log(Vector3.Distance(transform.position, Player.GetInstance().position));
-
                 nextAction = Time.time + 1 / ActionRate;
 
                 if (Math.Abs(Vector3.Distance(transform.position, Player.GetInstance().position)) <= AttackRange)
@@ -77,28 +75,18 @@ namespace Assets.Standard_Assets.Classes
             }
         }
 
-        IEnumerator<WaitForSeconds> DoDeath() {
-
-            for (;;)
-            {
-                Level.GetInstance().DecrementEnemyCount();
-
-                Destroy(Model, 0.2f);
-                yield return new WaitForSeconds(.2f);
-            }
-        }
-
         private void Die()
         {
             Vector3 currentPosition = Model.transform.position;
-            currentPosition.y += 5;
+            currentPosition.y += 1;
 
             Level.GetInstance().DecrementEnemyCount();
 
-            Destroy(Model, 0.2f);
-            new WaitForSeconds(0.2f);
+            Destroy(Model);
 
-            Instantiate(ResourceLoader.GetItems()[0], currentPosition, Quaternion.identity);
+            GameObject drop = Instantiate(ResourceLoader.GetItems()[0], currentPosition, Quaternion.identity);
+
+            drop.GetComponent<Rigidbody>().AddForce(currentPosition);
         }
     }
 }

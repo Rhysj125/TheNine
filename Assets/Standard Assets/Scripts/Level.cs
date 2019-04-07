@@ -40,13 +40,13 @@ public class Level {
 
     public void DecrementEnemyCount()
     {
-    //    NumOfEnemies--;
+        NumOfEnemies--;
 
-    //    if (NumOfEnemies <= 0)
-    //    {
-    //        //Do something to spawn portal to next room.
-    //        //GameObject.Instantiate(ResourceLoader.);
-    //    }
+        if (NumOfEnemies <= 0)
+        {
+            //Do something to spawn portal to next room.
+            GameObject.Instantiate(ResourceLoader.GetPortal(), new Vector3(45,2,45), Quaternion.identity);
+        }
     }
 
 }

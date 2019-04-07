@@ -47,69 +47,80 @@ public class GenerateRoom : MonoBehaviour {
 		Boolean mapEnd = false;
 
 		int[] initialPosition = { x, y };
+        int loopCounter = 0;
+        float decayStep = 0.2f;
 
 		positionsToCheck.Enqueue(initialPosition);
 
 		while (!mapEnd)
-		{
-			while (positionsToCheck.Count != 0)
-			{
-				int[] currentPosition = positionsToCheck.Dequeue();
-				checkedPositions.Enqueue(currentPosition);
+        {
+            while (positionsToCheck.Count != 0)
+            {
+                int[] currentPosition = positionsToCheck.Dequeue();
+                checkedPositions.Enqueue(currentPosition);
 
-				x = currentPosition[0];
-				y = currentPosition[1];
+                x = currentPosition[0];
+                y = currentPosition[1];
 
-				if (rand.NextDouble() < probability)
-				{
-					grid[x, y] = 1;
+                if (rand.NextDouble() < probability)
+                {
+                    grid[x, y] = 1;
 
-					int[][] newPositions = { x < grid.GetLength(0) - 1 ? new int[] { x + 1, y} : null,
-											x > 0 ? new int[] { x - 1, y} : null,
-											y < grid.GetLength(1) - 1 ? new int[] { x, y + 1} : null,
-											y > 0 ? new int[] { x, y - 1} : null
-											};
+                    int[][] newPositions = { x < grid.GetLength(0) - 1 ? new int[] { x + 1, y} : null,
+                                            x > 0 ? new int[] { x - 1, y} : null,
+                                            y < grid.GetLength(1) - 1 ? new int[] { x, y + 1} : null,
+                                            y > 0 ? new int[] { x, y - 1} : null
+                                            };
 
-					for (int i = 0; i < newPositions.Count(); i++)
-					{
-						if (newPositions[i] != null)
-						{
-							if (!checkedPositions.Any(j => j.SequenceEqual(newPositions[i])))
-							{
-								if (!positionsToCheck.Any(j => j.SequenceEqual(newPositions[i])))
-								{
-									if (!nextPassCheck.Any(j => j.SequenceEqual(newPositions[i])))
-									{
-										nextPassCheck.Enqueue(newPositions[i]);
-									}
-								}
-							}
-						}
-					}
-				}
-				else
-				{
-					grid[x, y] = 0;
-				}
-			}
+                    for (int i = 0; i < newPositions.Count(); i++)
+                    {
+                        if (newPositions[i] != null)
+                        {
+                            if (!checkedPositions.Any(j => j.SequenceEqual(newPositions[i])))
+                            {
+                                if (!positionsToCheck.Any(j => j.SequenceEqual(newPositions[i])))
+                                {
+                                    if (!nextPassCheck.Any(j => j.SequenceEqual(newPositions[i])))
+                                    {
+                                        nextPassCheck.Enqueue(newPositions[i]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    grid[x, y] = 0;
+                }
+            }
 
-			if (nextPassCheck.Count() == 0)
-			{
-				mapEnd = true;
-			}
-			else
-			{
-				while (nextPassCheck.Count > 0)
-				{
-					positionsToCheck.Enqueue(nextPassCheck.Dequeue());
-				}
-			}
+            if (nextPassCheck.Count() == 0)
+            {
+                mapEnd = true;
+            }
+            else
+            {
+                while (nextPassCheck.Count > 0)
+                {
+                    positionsToCheck.Enqueue(nextPassCheck.Dequeue());
+                }
+            }
 
+            probability = CalculateProbability(loopCounter, decayStep);
 
-			probability *= probabilityModifier;
+            loopCounter++;
+        }
+    }
 
-		}
-	}
+    private float CalculateProbability(int loopCounter, float decayStep)
+    {
+        // x * 0.2(1 - e^2x) + 1
+        float probability;
+        float decayX = loopCounter * decayStep;
+        probability = (float)(decayX * 0.2f * (1.0f - Math.Exp(2f * decayX)) + 1.0f);
+        return probability;
+    }
 
     private void buildMap()
     {
@@ -133,6 +144,22 @@ public class GenerateRoom : MonoBehaviour {
 
     private void SpawnEnemies()
     {
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
         Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
         Level.GetInstance().IncrementEnemyCount();
     }

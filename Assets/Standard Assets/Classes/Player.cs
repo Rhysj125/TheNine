@@ -105,13 +105,16 @@ public class Player{
 
     public void Reload()
     {
-        AmmoCount = AmmoCapacity;
-        OnReload.Invoke(this, EventArgs.Empty);
+        if (AmmoCount != AmmoCapacity)
+        {
+            AmmoCount = AmmoCapacity;
+            OnReload.Invoke(this, EventArgs.Empty);
+        }
     }
 
     public void Heal(int amount)
     {
-        if(CurrentHealth + amount > MAX_HEALTH)
+        if(CurrentHealth + amount < MAX_HEALTH)
         {
             CurrentHealth += amount;
         }

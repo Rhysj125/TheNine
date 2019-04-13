@@ -31,6 +31,15 @@ namespace Assets.Standard_Assets.Classes
             TryToAttack();
         }
 
+        public virtual void Spawn(GameObject gameObject, Vector3 position, Quaternion rotation)
+        {
+            Instantiate(gameObject, Vector3.zero, Quaternion.identity);
+
+            Debug.Log("Enemy Spawned");
+
+            Level.GetInstance().IncrementEnemyCount();
+        }
+
         public virtual void TakeDamage(float damage)
         {
             BaseHealth -= damage;

@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.AI;
 using Assets.Standard_Assets.Classes;
+using Assets.Standard_Assets.Scripts;
 
 public class GenerateRoom : MonoBehaviour {
 
     public int floorSize = 9;
-    public int[,] grid;
+    public bool[,] grid;
 	public float probabilityModifier = 0.8f;
 	private List<GameObject> floorTiles;
 	public GameObject walls;
@@ -28,7 +29,7 @@ public class GenerateRoom : MonoBehaviour {
     // Use this for initialization
     public void CreateRoom()
     {
-        grid = new int[floorSize, floorSize];
+        grid = new bool[floorSize, floorSize];
 
         mapRoom();
         buildMap();
@@ -64,7 +65,7 @@ public class GenerateRoom : MonoBehaviour {
 
                 if (rand.NextDouble() < probability)
                 {
-                    grid[x, y] = 1;
+                    grid[x, y] = true;
 
                     int[][] newPositions = { x < grid.GetLength(0) - 1 ? new int[] { x + 1, y} : null,
                                             x > 0 ? new int[] { x - 1, y} : null,
@@ -91,7 +92,7 @@ public class GenerateRoom : MonoBehaviour {
                 }
                 else
                 {
-                    grid[x, y] = 0;
+                    grid[x, y] = false;
                 }
             }
 
@@ -128,7 +129,7 @@ public class GenerateRoom : MonoBehaviour {
         {
             for (int j = 0; j < grid.GetLength(1) - 1; j++)
             {
-                if (grid[i, j] == 1)
+                if (grid[i, j])
                 {
                     GameObject component = Instantiate(getFloorTile(), new Vector3((i * ROOM_SIZE), 0, (j * ROOM_SIZE)), Quaternion.identity);
                     component.transform.parent = transform;
@@ -144,23 +145,37 @@ public class GenerateRoom : MonoBehaviour {
 
     private void SpawnEnemies()
     {
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
-        Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        GameObject enemyToSpawn = ResourceLoader.GetEnemies(1)[1];
+
+        for (int i = 0; i < 10; i++)
+        {
+            if (enemyToSpawn.GetComponentInChildren<Enemy>())
+            {
+                enemyToSpawn.GetComponentInChildren<Enemy>().Spawn(enemyToSpawn, Vector3.zero, Quaternion.identity);
+            }
+            else
+            {
+                Debug.Log("Cannot find type: \"enemy\" on given object");
+            }
+        }
+
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
+        //Instantiate(ResourceLoader.GetEnemies(1)[1], Vector3.zero, Quaternion.identity);
         Level.GetInstance().IncrementEnemyCount();
     }
 

@@ -28,9 +28,9 @@ namespace Assets.Standard_Assets.Classes
         /// <returns></returns>
         public static List<GameObject> GetEnemies(int level)
         {
-                GameObject[] enemies = Resources.LoadAll<GameObject>(ENEMY_DIR);
+            GameObject[] enemies = Resources.LoadAll<GameObject>(ENEMY_DIR);
 
-                return enemies.ToList();
+            return enemies.ToList();
         }
 
         /// <summary>

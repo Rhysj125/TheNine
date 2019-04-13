@@ -13,7 +13,7 @@ namespace Assets.Standard_Assets.Items
             if (IsValidTriggerEntered(other))
             {
                 baseStat.ApplyStat();
-                DestroyItem(this.gameObject);
+                DestroyItem(this.GetComponentInParent<GameObject>());
             }
         }
     }

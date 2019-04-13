@@ -21,7 +21,7 @@ public class Level {
 
     private static readonly Level INSTANCE = new Level();
 
-    private int NumOfEnemies;
+    private int NumOfEnemies = 0;
 
     private Level()
     {
@@ -33,6 +33,11 @@ public class Level {
         return INSTANCE;
     }
 
+    public int GetEnemyCount()
+    {
+        return NumOfEnemies;
+    }
+
     public void IncrementEnemyCount()
     {
         NumOfEnemies++;
@@ -40,9 +45,11 @@ public class Level {
 
     public void DecrementEnemyCount()
     {
-        NumOfEnemies--;
+        --NumOfEnemies;
 
-        if (NumOfEnemies <= 0)
+        Debug.Log("Number Of Enemies Remaining: " + NumOfEnemies);
+
+        if (NumOfEnemies <= 1)
         {
             //Do something to spawn portal to next room.
             GameObject.Instantiate(ResourceLoader.GetPortal(), new Vector3(45,2,45), Quaternion.identity);

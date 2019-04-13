@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 33126487028088520}
   - component: {fileID: 23758426734188544}
   - component: {fileID: 65922732730110502}
-  - component: {fileID: 114322314014289648}
+  - component: {fileID: 114199818499095508}
   m_Layer: 0
   m_Name: Health
   m_TagString: Untagged
@@ -155,7 +155,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114322314014289648
+--- !u!114 &114199818499095508
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -163,9 +163,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1582261033520704}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6403dda0c7a307b4aa873625942bd395, type: 3}
+  m_Script: {fileID: 11500000, guid: d3cfed9a53e61f14bb742e6539614d9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   stat:
-    stat: 4
-    value: 5
+    stat: 0
+    value: 10

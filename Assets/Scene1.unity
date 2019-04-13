@@ -814,9 +814,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6403dda0c7a307b4aa873625942bd395, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stat:
-    stat: 4
-    value: 5
+  baseStat:
+    stat: 2
+    value: 1000
 --- !u!1 &749428286
 GameObject:
   m_ObjectHideFlags: 0
@@ -5996,7 +5996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorSize: 9
-  probabilityModifier: 0.8
+  probabilityModifier: 0.2
   walls: {fileID: 151518, guid: 7e8dedf22ad4af74ebdb12c170da9998, type: 2}
   surface: {fileID: 973460459}
 --- !u!4 &1219765406 stripped
@@ -6147,6 +6147,14 @@ Prefab:
     - target: {fileID: 100006, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 2}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 13600000, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 2}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 2}

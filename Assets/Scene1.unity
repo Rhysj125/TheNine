@@ -816,7 +816,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseStat:
     stat: 2
-    value: 1000
+    value: 2
 --- !u!1 &749428286
 GameObject:
   m_ObjectHideFlags: 0

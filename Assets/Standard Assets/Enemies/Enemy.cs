@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -21,11 +18,17 @@ namespace Assets.Standard_Assets.Classes
 
         //Others
         public GameObject Model;
-        public NavMeshAgent Agent;
+        private NavMeshAgent agent;
 
+        // Enemy State
         private bool IsAttacking;
 
-        public void FixedUpdate()
+        public void Start()
+        {
+            agent = Model.GetComponent<NavMeshAgent>();
+        }
+
+        protected virtual void FixedUpdate()
         {
             Move();
             TryToAttack();
@@ -33,10 +36,8 @@ namespace Assets.Standard_Assets.Classes
 
         public virtual void Spawn(GameObject gameObject, Vector3 position, Quaternion rotation)
         {
-            Instantiate(gameObject, Vector3.zero, Quaternion.identity);
-
-            Debug.Log("Enemy Spawned");
-
+            Instantiate(gameObject, position, rotation);
+            
             Level.GetInstance().IncrementEnemyCount();
         }
 
@@ -44,28 +45,35 @@ namespace Assets.Standard_Assets.Classes
         {
             BaseHealth -= damage;
 
-            Debug.Log("Enemy Taken Damage");
-
             if(BaseHealth <= 0)
             {
-                Die();
+                Die(true);
             }
         }
 
         protected virtual void Move()
         {
-            //Enemy will not move while it is attacking the player
-            if (IsAttacking)
+
+            if (agent.isOnNavMesh)
             {
-                Agent.isStopped = true;
-            }else
+                //Enemy will not move while it is attacking the player
+                if (IsAttacking)
+                {
+                    agent.isStopped = true;
+                }
+                else
+                {
+                    agent.isStopped = false;
+                    agent.SetDestination(Player.GetInstance().position);
+                }
+            }
+            else
             {
-                Agent.isStopped = false;
-                Agent.SetDestination(Player.GetInstance().position);
+                this.Die();
             }
         }
 
-        private void TryToAttack()
+        protected virtual void TryToAttack()
         {
             // Ensuring the enemy doesn't attack every update.
             if (Time.time > nextAction)
@@ -84,18 +92,24 @@ namespace Assets.Standard_Assets.Classes
             }
         }
 
-        private void Die()
+        private void Die(bool isPlayerKill = false)
         {
             Vector3 currentPosition = Model.transform.position;
-            currentPosition.y += 1;
 
             Level.GetInstance().DecrementEnemyCount();
 
             Destroy(Model);
 
-            GameObject drop = Instantiate(ResourceLoader.GetItems()[0], currentPosition, Quaternion.identity);
+            if (isPlayerKill)
+            {
+                GameObject drop = Instantiate(ResourceLoader.GetItems()[0], currentPosition, Quaternion.identity);
 
-            drop.GetComponent<Rigidbody>().AddForce(currentPosition);
+                currentPosition.y = new System.Random().Next(10);
+                currentPosition.x = new System.Random().Next(10);
+                currentPosition.z = new System.Random().Next(10);
+
+                drop.GetComponent<Rigidbody>().AddForce(new Vector3(new System.Random().Next(5), new System.Random().Next(5), new System.Random().Next(5)), ForceMode.VelocityChange);
+            }
         }
     }
 }

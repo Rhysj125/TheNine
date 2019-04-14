@@ -47,8 +47,6 @@ public class Level {
     {
         --NumOfEnemies;
 
-        Debug.Log("Number Of Enemies Remaining: " + NumOfEnemies);
-
         if (NumOfEnemies <= 1)
         {
             //Do something to spawn portal to next room.

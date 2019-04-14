@@ -9,48 +9,77 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1485918928489576}
+  m_RootGameObject: {fileID: 1294415781537370}
   m_IsPrefabAsset: 1
---- !u!1 &1485918928489576
+--- !u!1 &1294415781537370
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4663365225740694}
-  - component: {fileID: 33795597006135852}
-  - component: {fileID: 23959654643411096}
-  - component: {fileID: 65096246591595222}
-  - component: {fileID: 114344002119893096}
-  - component: {fileID: 195905241225201704}
-  - component: {fileID: 54077947923743818}
+  - component: {fileID: 4261420871435434}
+  - component: {fileID: 195272525437833078}
   m_Layer: 0
-  m_Name: Basic Melee Enemy
+  m_Name: Smobeast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4663365225740694
+--- !u!1 &1379998825324508
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4681350969001966}
+  - component: {fileID: 33038378496451616}
+  - component: {fileID: 23498067997069482}
+  - component: {fileID: 64858161756070910}
+  - component: {fileID: 54615702475653506}
+  - component: {fileID: 114146819806696276}
+  m_Layer: 0
+  m_Name: Quadraped
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 40
+  m_IsActive: 1
+--- !u!4 &4261420871435434
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1485918928489576}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 39.997, y: 6.62, z: 48.3}
-  m_LocalScale: {x: 1.0961444, y: 2.2406, z: 1}
-  m_Children: []
+  m_GameObject: {fileID: 1294415781537370}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 14.728809, y: -1.1074758, z: 0.3385148}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_Children:
+  - {fileID: 4681350969001966}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!23 &23959654643411096
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4681350969001966
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1379998825324508}
+  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 3.66, z: -2.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4261420871435434}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
+--- !u!23 &23498067997069482
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1485918928489576}
+  m_GameObject: {fileID: 1379998825324508}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -80,67 +109,68 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33795597006135852
+--- !u!33 &33038378496451616
 MeshFilter:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1485918928489576}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &54077947923743818
+  m_GameObject: {fileID: 1379998825324508}
+  m_Mesh: {fileID: 4300000, guid: fe6703c8498656a4ab4d91af0f8ee2cf, type: 3}
+--- !u!54 &54615702475653506
 Rigidbody:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1485918928489576}
+  m_GameObject: {fileID: 1379998825324508}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65096246591595222
-BoxCollider:
+--- !u!64 &64858161756070910
+MeshCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1485918928489576}
+  m_GameObject: {fileID: 1379998825324508}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114344002119893096
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: fe6703c8498656a4ab4d91af0f8ee2cf, type: 3}
+--- !u!114 &114146819806696276
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1485918928489576}
+  m_GameObject: {fileID: 1379998825324508}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 272e352e820eddc47a756348f755bc6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 20abe874660974542bd672eb505f9248, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BaseHealth: 50
-  MovementSpeed: 0.05
+  BaseHealth: 1
+  MovementSpeed: 0.02
   Damage: 10
   AttackRange: 3
   ActionRate: 3
-  Model: {fileID: 1485918928489576}
-  Agent: {fileID: 195905241225201704}
---- !u!195 &195905241225201704
+  Model: {fileID: 1294415781537370}
+--- !u!195 &195272525437833078
 NavMeshAgent:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1485918928489576}
+  m_GameObject: {fileID: 1294415781537370}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.50000006
+  m_Radius: 4.74
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -149,7 +179,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1.0000001
-  m_BaseOffset: 0.50000006
+  m_Height: 5.17
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4

@@ -19,6 +19,7 @@ namespace Assets.Standard_Assets.Classes
         private static readonly string ENEMY_DIR = RESOURCE_DIR + "Enemies/";
         private static readonly string ROOM_DIR = RESOURCE_DIR + "Floor Tiles/";
         private static readonly string ITEM_DIR = RESOURCE_DIR + "Items/";
+        private static readonly string PLAYER_DIR = RESOURCE_DIR + "Player/Player";
         private static readonly string PORTAL_DIR = RESOURCE_DIR + "Portal/Portal";
 
         /// <summary>
@@ -54,6 +55,11 @@ namespace Assets.Standard_Assets.Classes
             GameObject[] items = Resources.LoadAll<GameObject>(ITEM_DIR);
 
             return items.ToList();
+        }
+
+        public static GameObject GetPlayer()
+        {
+            return Resources.Load<GameObject>(PLAYER_DIR);
         }
 
         public static GameObject GetPortal()

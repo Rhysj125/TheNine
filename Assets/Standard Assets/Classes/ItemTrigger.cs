@@ -6,14 +6,19 @@ namespace Assets.Standard_Assets.Classes
     {
         protected bool IsValidTriggerEntered(Collider other)
         {
-            if (other.GetComponent<Rigidbody>().tag == "Player")
+            if (other.GetComponent<Rigidbody>())
             {
-                return true;
+                if (other.GetComponent<Rigidbody>().tag == "Player")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         protected virtual void DestroyItem(GameObject item)

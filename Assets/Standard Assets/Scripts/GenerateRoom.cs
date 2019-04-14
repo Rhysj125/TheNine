@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.AI;
 using Assets.Standard_Assets.Classes;
+using Assets.Standard_Assets.Scripts;
 
 public class GenerateRoom : MonoBehaviour {
 
     public int floorSize = 9;
-    public int[,] grid;
+    public bool[,] grid;
 	public float probabilityModifier = 0.8f;
 	private List<GameObject> floorTiles;
 	public GameObject walls;
@@ -19,6 +20,7 @@ public class GenerateRoom : MonoBehaviour {
 
     public void Start()
     {
+        SpawnPlayer();
         floorTiles = ResourceLoader.GetRoomTiles(1);
         CreateRoom();
         surface.BuildNavMesh();
@@ -28,7 +30,7 @@ public class GenerateRoom : MonoBehaviour {
     // Use this for initialization
     public void CreateRoom()
     {
-        grid = new int[floorSize, floorSize];
+        grid = new bool[floorSize, floorSize];
 
         mapRoom();
         buildMap();
@@ -47,69 +49,80 @@ public class GenerateRoom : MonoBehaviour {
 		Boolean mapEnd = false;
 
 		int[] initialPosition = { x, y };
+        int loopCounter = 0;
+        float decayStep = 0.2f;
 
 		positionsToCheck.Enqueue(initialPosition);
 
 		while (!mapEnd)
-		{
-			while (positionsToCheck.Count != 0)
-			{
-				int[] currentPosition = positionsToCheck.Dequeue();
-				checkedPositions.Enqueue(currentPosition);
+        {
+            while (positionsToCheck.Count != 0)
+            {
+                int[] currentPosition = positionsToCheck.Dequeue();
+                checkedPositions.Enqueue(currentPosition);
 
-				x = currentPosition[0];
-				y = currentPosition[1];
+                x = currentPosition[0];
+                y = currentPosition[1];
 
-				if (rand.NextDouble() < probability)
-				{
-					grid[x, y] = 1;
+                if (rand.NextDouble() < probability)
+                {
+                    grid[x, y] = true;
 
-					int[][] newPositions = { x < grid.GetLength(0) - 1 ? new int[] { x + 1, y} : null,
-											x > 0 ? new int[] { x - 1, y} : null,
-											y < grid.GetLength(1) - 1 ? new int[] { x, y + 1} : null,
-											y > 0 ? new int[] { x, y - 1} : null
-											};
+                    int[][] newPositions = { x < grid.GetLength(0) - 1 ? new int[] { x + 1, y} : null,
+                                            x > 0 ? new int[] { x - 1, y} : null,
+                                            y < grid.GetLength(1) - 1 ? new int[] { x, y + 1} : null,
+                                            y > 0 ? new int[] { x, y - 1} : null
+                                            };
 
-					for (int i = 0; i < newPositions.Count(); i++)
-					{
-						if (newPositions[i] != null)
-						{
-							if (!checkedPositions.Any(j => j.SequenceEqual(newPositions[i])))
-							{
-								if (!positionsToCheck.Any(j => j.SequenceEqual(newPositions[i])))
-								{
-									if (!nextPassCheck.Any(j => j.SequenceEqual(newPositions[i])))
-									{
-										nextPassCheck.Enqueue(newPositions[i]);
-									}
-								}
-							}
-						}
-					}
-				}
-				else
-				{
-					grid[x, y] = 0;
-				}
-			}
+                    for (int i = 0; i < newPositions.Count(); i++)
+                    {
+                        if (newPositions[i] != null)
+                        {
+                            if (!checkedPositions.Any(j => j.SequenceEqual(newPositions[i])))
+                            {
+                                if (!positionsToCheck.Any(j => j.SequenceEqual(newPositions[i])))
+                                {
+                                    if (!nextPassCheck.Any(j => j.SequenceEqual(newPositions[i])))
+                                    {
+                                        nextPassCheck.Enqueue(newPositions[i]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    grid[x, y] = false;
+                }
+            }
 
-			if (nextPassCheck.Count() == 0)
-			{
-				mapEnd = true;
-			}
-			else
-			{
-				while (nextPassCheck.Count > 0)
-				{
-					positionsToCheck.Enqueue(nextPassCheck.Dequeue());
-				}
-			}
+            if (nextPassCheck.Count() == 0)
+            {
+                mapEnd = true;
+            }
+            else
+            {
+                while (nextPassCheck.Count > 0)
+                {
+                    positionsToCheck.Enqueue(nextPassCheck.Dequeue());
+                }
+            }
 
+            probability = CalculateProbability(loopCounter, decayStep);
 
-			probability *= probabilityModifier;
+            loopCounter++;
+        }
+    }
 
-		}
-	}
+    private float CalculateProbability(int loopCounter, float decayStep)
+    {
+        // x * 0.2(1 - e^2x) + 1
+        float probability;
+        float decayX = loopCounter * decayStep;
+        probability = (float)(decayX * 0.2f * (1.0f - Math.Exp(2f * decayX)) + 1.0f);
+        return probability;
+    }
 
     private void buildMap()
     {
@@ -117,7 +130,7 @@ public class GenerateRoom : MonoBehaviour {
         {
             for (int j = 0; j < grid.GetLength(1) - 1; j++)
             {
-                if (grid[i, j] == 1)
+                if (grid[i, j])
                 {
                     GameObject component = Instantiate(getFloorTile(), new Vector3((i * ROOM_SIZE), 0, (j * ROOM_SIZE)), Quaternion.identity);
                     component.transform.parent = transform;
@@ -131,11 +144,38 @@ public class GenerateRoom : MonoBehaviour {
         }
     }
 
+    private void SpawnPlayer()
+    {
+        GameObject player = ResourceLoader.GetPlayer();
+
+        int mapMiddle = (ROOM_SIZE * floorSize) / 2;
+
+        Vector3 startingPosition = new Vector3(mapMiddle, 1, mapMiddle);
+
+        Instantiate(player, startingPosition, Quaternion.identity);
+    }
+
     private void SpawnEnemies()
     {
-        UnityEngine.Object pPrefab = Resources.Load<Enemy>("Prefab/Enemies/Enemy1");
+        GameObject enemyToSpawn = ResourceLoader.GetEnemies(1)[0];
 
-        GameObject enemy = (GameObject)Instantiate(pPrefab, Vector3.zero, Quaternion.identity);
+        for (int i = 0; i < 10; i++)
+        {
+            Vector3 enemyPosition = new Vector3(rand.Next(ROOM_SIZE * floorSize), 0, rand.Next(ROOM_SIZE * floorSize));
+
+            Debug.Log(enemyPosition);
+
+            if (enemyToSpawn.GetComponentInChildren<Enemy>())
+            {
+                enemyToSpawn.GetComponentInChildren<Enemy>().Spawn(enemyToSpawn, enemyPosition, Quaternion.identity);
+            }
+            else
+            {
+                Debug.Log("Cannot find type: \"enemy\" on given object");
+            }
+        }
+
+        Level.GetInstance().IncrementEnemyCount();
     }
 
 	private GameObject getFloorTile()

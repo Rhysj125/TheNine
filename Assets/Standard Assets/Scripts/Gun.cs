@@ -1,5 +1,6 @@
 ﻿using Assets.Standard_Assets.Classes;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Standard_Assets.Scripts
 {

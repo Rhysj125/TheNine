@@ -814,9 +814,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6403dda0c7a307b4aa873625942bd395, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stat:
-    stat: 4
-    value: 5
+  baseStat:
+    stat: 2
+    value: 2
 --- !u!1 &749428286
 GameObject:
   m_ObjectHideFlags: 0
@@ -1252,7 +1252,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.016666668
+  m_VoxelSize: 0.33333334
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}
 --- !u!4 &973460461
@@ -5996,11 +5996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorSize: 9
-  probabilityModifier: 0.8
-  floorTiles:
-  - {fileID: 1672014739802302, guid: 041a1b5e58bfe114c9b4124300b3c2b4, type: 2}
-  - {fileID: 1452173877356738, guid: 6a58df0bfe101bf4fa6043a4a9b9f514, type: 2}
-  - {fileID: 1055379972644350, guid: 228673bb95e5c0d4fb1bc47b0c5e42d5, type: 2}
+  probabilityModifier: 0.2
   walls: {fileID: 151518, guid: 7e8dedf22ad4af74ebdb12c170da9998, type: 2}
   surface: {fileID: 973460459}
 --- !u!4 &1219765406 stripped
@@ -6151,6 +6147,14 @@ Prefab:
     - target: {fileID: 100006, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 2}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 13600000, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 2}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 2}

@@ -1,7 +1,12 @@
-﻿using System;
+﻿using Assets.Standard_Assets;
+using Assets.Standard_Assets.Interfaces;
+using System;
 using UnityEngine;
 
-public class Player{
+public enum DamageType { Default, Melee, Bullet, Explosive }
+
+public class Player : IPlayer, IDamageable
+{
 
     private static readonly Player INSTANCE = new Player();
 
@@ -19,6 +24,7 @@ public class Player{
     //Health related stats
     public int MaxHealthPoints { get; private set; }
     public int CurrentHealth { get; private set; }
+    public float ArmorMultiplier { get; private set; }
 
     //Ammo related stats
     public int AmmoCapacity { get; private set; }
@@ -39,6 +45,7 @@ public class Player{
     {
         MaxHealthPoints = 100;
         CurrentHealth = MaxHealthPoints;
+        ArmorMultiplier = 1.2f;
 
         AmmoCapacity = 10;
         AmmoCount = AmmoCapacity;
@@ -50,22 +57,37 @@ public class Player{
     }
 
     /// <summary>
-    /// Player takes damage and if the player dies returns true;
+    /// Player takes damage.
     /// </summary>
     /// <param name="damage"></param>
     /// <returns></returns>
     public void TakeDamage(int damage)
     {
-        Debug.Log("Player Taking Damage");
-
         if (damage > 0)
+        {
+            CurrentHealth -= (int) Math.Floor(damage * ArmorMultiplier);
+        }
+
+        if(CurrentHealth <= 0)
+        {
+            //Die();
+        }
+    }
+
+    /// <summary>
+    /// Explosive damage negates any armor held by the Player, dealing more damage.
+    /// </summary>
+    /// <param name="damage"></param>
+    public void TakeExplosiveDamage(int damage)
+    {
+        if(damage > 0)
         {
             CurrentHealth -= damage;
         }
 
         if(CurrentHealth <= 0)
         {
-            //die
+            //Die()
         }
     }
 
@@ -137,5 +159,10 @@ public class Player{
     public void IncreaseFireRate(int additionalFireRate)
     {
         FireRate += additionalFireRate;
+    }
+
+    public void Destory()
+    {
+        //Would just show game over or something along those lines
     }
 }

@@ -18,12 +18,12 @@ namespace Assets.Standard_Assets.Classes
 
         //Others
         public GameObject Model;
-        private NavMeshAgent agent;
+        protected NavMeshAgent agent;
 
         // Enemy State
-        private bool IsAttacking;
+        protected bool IsAttacking;
 
-        public void Start()
+        protected void Start()
         {
             agent = Model.GetComponent<NavMeshAgent>();
         }
@@ -53,7 +53,6 @@ namespace Assets.Standard_Assets.Classes
 
         protected virtual void Move()
         {
-
             if (agent.isOnNavMesh)
             {
                 //Enemy will not move while it is attacking the player
@@ -92,7 +91,7 @@ namespace Assets.Standard_Assets.Classes
             }
         }
 
-        private void Die(bool isPlayerKill = false)
+        protected virtual void Die(bool isPlayerKill = false)
         {
             Vector3 currentPosition = Model.transform.position;
 

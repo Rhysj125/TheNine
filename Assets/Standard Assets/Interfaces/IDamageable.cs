@@ -7,8 +7,7 @@ namespace Assets.Standard_Assets
 {
     public interface IDamageable
     {
-
         void TakeDamage(int damage);
-
+        void Destory();
     }
 }

@@ -6,16 +6,10 @@ namespace Assets.Standard_Assets.Classes
     {
         protected bool IsValidTriggerEntered(Collider other)
         {
-            if (other.GetComponent<Rigidbody>())
+            if (other.GetIsPlayerCollider())
             {
-                if (other.GetComponent<Rigidbody>().tag == "Player")
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                Debug.Log("Player Entered Trigger");
+                return true;
             }
 
             return false;

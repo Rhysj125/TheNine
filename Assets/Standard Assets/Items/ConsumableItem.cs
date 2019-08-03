@@ -1,19 +1,18 @@
-﻿using Assets.Standard_Assets.Classes;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Standard_Assets.Items
 {
-    class ConsumableItem : ItemTrigger
+    class ConsumableItem : MonoBehaviour
     {
         [SerializeField]
         public VariableStatModifier stat;
 
         private void OnTriggerEnter(Collider other)
         {
-            if (IsValidTriggerEntered(other))
+            if (other.GetIsPlayerCollider())
             {
                 stat.ApplyStat();
-                DestroyItem(this.gameObject);
+                Destroy(this.gameObject);
             }
         }
     }

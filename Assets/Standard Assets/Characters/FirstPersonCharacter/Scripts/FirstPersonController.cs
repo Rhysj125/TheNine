@@ -1,3 +1,4 @@
+using Assets.Standard_Assets.Interfaces;
 using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
@@ -8,7 +9,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 {
     [RequireComponent(typeof (CharacterController))]
     [RequireComponent(typeof (AudioSource))]
-    public class FirstPersonController : MonoBehaviour
+    public class FirstPersonController : MonoBehaviour, IPlayer
     {
         [SerializeField] private bool m_IsWalking;
         [SerializeField] private float m_WalkSpeed;

@@ -20,8 +20,9 @@ public class GenerateRoom : MonoBehaviour {
 
     public void Start()
     {
-        SpawnPlayer();
         floorTiles = ResourceLoader.GetRoomTiles(1);
+
+        SpawnPlayer();
         CreateRoom();
         surface.BuildNavMesh();
         SpawnEnemies();
@@ -163,15 +164,12 @@ public class GenerateRoom : MonoBehaviour {
         {
             Vector3 enemyPosition = new Vector3(rand.Next(ROOM_SIZE * floorSize), 0, rand.Next(ROOM_SIZE * floorSize));
 
-            Debug.Log(enemyPosition);
-
             if (enemyToSpawn.GetComponentInChildren<Enemy>())
             {
                 enemyToSpawn.GetComponentInChildren<Enemy>().Spawn(enemyToSpawn, enemyPosition, Quaternion.identity);
             }
             else
             {
-                Debug.Log("Cannot find type: \"enemy\" on given object");
             }
         }
 

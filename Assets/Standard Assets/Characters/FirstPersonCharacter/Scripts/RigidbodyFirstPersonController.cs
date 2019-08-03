@@ -1,4 +1,5 @@
 using Assets.Standard_Assets;
+using Assets.Standard_Assets.Interfaces;
 using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
@@ -7,7 +8,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 {
 	[RequireComponent(typeof (Rigidbody))]
 	[RequireComponent(typeof (CapsuleCollider))]
-	public class RigidbodyFirstPersonController : MonoBehaviour, IDamageable
+	public class RigidbodyFirstPersonController : MonoBehaviour, IPlayer
 	{
 
         [Serializable]
@@ -295,6 +296,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public void TakeDamage(int damage)
         {
             Player.GetInstance().TakeDamage(damage);
+        }
+
+        public void Destory()
+        {
+            //do nothing
         }
     }
 }

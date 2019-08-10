@@ -161,6 +161,11 @@ public class Player : IPlayer, IDamageable
         FireRate += additionalFireRate;
     }
 
+    public void SetInteractable(Interactable interactable)
+    {
+        
+    }
+
     public void Destory()
     {
         //Would just show game over or something along those lines

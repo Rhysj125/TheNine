@@ -158,6 +158,8 @@ public class GenerateRoom : MonoBehaviour {
 
     private void SpawnEnemies()
     {
+        Debug.Log("Entered Spawn Enemies");
+
         GameObject enemyToSpawn = ResourceLoader.GetEnemies(1)[0];
 
         for (int i = 0; i < 10; i++)
@@ -166,6 +168,7 @@ public class GenerateRoom : MonoBehaviour {
 
             if (enemyToSpawn.GetComponentInChildren<Enemy>())
             {
+                Debug.Log("Spawning Enemy: " + i);
                 enemyToSpawn.GetComponentInChildren<Enemy>().Spawn(enemyToSpawn, enemyPosition, Quaternion.identity);
             }
             else

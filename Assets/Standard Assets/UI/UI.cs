@@ -12,11 +12,14 @@ namespace Assets.Standard_Assets.Scripts
         public Text Health = null;
         public Text Ammo = null;
         public Text Reload = null;
+        public Text PickUp = null;
+        private bool showPickUpText;
 
         public void Start()
         {
             SetUITextPosition();
             SetUIText();
+            showPickUpText = false;
         }
 
         public void Update()
@@ -28,6 +31,19 @@ namespace Assets.Standard_Assets.Scripts
         {
             SetUITextPosition();
             SetUIText();
+            ShowPickUpText();
+        }
+
+        private void ShowPickUpText()
+        {
+            if (showPickUpText)
+            {
+                PickUp.color = Color.white;
+            }
+            else
+            {
+                PickUp.color = Color.clear;
+            }
         }
 
         private void SetUITextPosition()
@@ -52,5 +68,14 @@ namespace Assets.Standard_Assets.Scripts
             }
         }
 
+        public void DisplayPickUpText()
+        {
+            showPickUpText = true;
+        }
+
+        public void HidePickUpText()
+        {
+            showPickUpText = false;
+        }
     }
 }

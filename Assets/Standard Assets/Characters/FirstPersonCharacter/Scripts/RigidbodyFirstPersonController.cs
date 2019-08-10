@@ -11,6 +11,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 	public class RigidbodyFirstPersonController : MonoBehaviour, IPlayer
 	{
 
+        public Interactable focus;
+
         [Serializable]
 		public class MovementSettings
 		{
@@ -151,15 +153,29 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
                     if (interactable != null)
                     {
-
+                        SetFocus(interactable);
                     }
                 }
+            }
+            else if (Input.GetMouseButtonDown(0))
+            {
+                RemoveFocus();
             }
             else if (Input.GetKeyDown(KeyCode.R))
             {
                 Player.GetInstance().Reload();
             }
 		}
+
+        private void SetFocus(Interactable newFocus)
+        {
+            focus = newFocus;
+        }
+
+        private void RemoveFocus()
+        {
+            focus = null;
+        }
 
         void OnDrawGizmosSelected()
         {

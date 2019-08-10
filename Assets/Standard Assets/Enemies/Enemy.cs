@@ -6,6 +6,8 @@ namespace Assets.Standard_Assets.Classes
 {
     public abstract class Enemy : MonoBehaviour
     {
+        private const int dropChance = 75;
+
         //Movement properties
         public float BaseHealth = 1;
         public float MovementSpeed = 0.02f;
@@ -99,15 +101,20 @@ namespace Assets.Standard_Assets.Classes
 
             Destroy(Model);
 
+            int randomChance = UnityEngine.Random.Range(0, 100);
+
             if (isPlayerKill)
             {
-                GameObject drop = Instantiate(ResourceLoader.GetItems()[0], currentPosition, Quaternion.identity);
+                if (randomChance >= dropChance)
+                {
+                    GameObject drop = Instantiate(ResourceLoader.GetItems()[0], currentPosition, Quaternion.identity);
 
-                currentPosition.y = new System.Random().Next(10);
-                currentPosition.x = new System.Random().Next(10);
-                currentPosition.z = new System.Random().Next(10);
+                    currentPosition.y = new System.Random().Next(10);
+                    currentPosition.x = new System.Random().Next(10);
+                    currentPosition.z = new System.Random().Next(10);
 
-                drop.GetComponent<Rigidbody>().AddForce(new Vector3(new System.Random().Next(5), new System.Random().Next(5), new System.Random().Next(5)), ForceMode.VelocityChange);
+                    drop.GetComponent<Rigidbody>().AddForce(new Vector3(new System.Random().Next(5), new System.Random().Next(5), new System.Random().Next(5)), ForceMode.VelocityChange);
+                }
             }
         }
     }

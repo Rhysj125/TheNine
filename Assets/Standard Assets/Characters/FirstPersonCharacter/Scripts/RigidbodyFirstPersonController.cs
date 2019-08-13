@@ -142,7 +142,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 m_Jump = true;
             }
-            else if (Input.GetMouseButtonDown(1))
+
+            if (Input.GetMouseButtonDown(1))
             {
                 Ray ray = cam.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -161,9 +162,28 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 RemoveFocus();
             }
-            else if (Input.GetKeyDown(KeyCode.R))
+
+            if (Input.GetKeyDown(KeyCode.R))
             {
                 Player.GetInstance().Reload();
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(ray, out RaycastHit hit))
+                {
+                    var target = hit.collider.GetComponent<Interactable>();
+
+                    float distance = Vector3.Distance(Player.GetInstance().position, target.transform.position);
+
+                    Debug.Log("Distance as from PlayerController: " + distance);
+
+                    if (distance <= target.radius)
+                    {
+                        target.Interact();
+                    }
+                }
             }
 		}
 

@@ -25,7 +25,7 @@ public class GenerateRoom : MonoBehaviour {
         SpawnPlayer();
         CreateRoom();
         surface.BuildNavMesh();
-        SpawnEnemies();
+        //SpawnEnemies();
     }
 
     // Use this for initialization

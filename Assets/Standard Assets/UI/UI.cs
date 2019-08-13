@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,15 +10,14 @@ namespace Assets.Standard_Assets.Scripts
 {
     class UI : MonoBehaviour
     {
-        public Text Health = null;
-        public Text Ammo = null;
-        public Text Reload = null;
-        public Text PickUp = null;
+        public TextMeshProUGUI Health = null;
+        public TextMeshProUGUI Ammo = null;
+        public TextMeshProUGUI Reload = null;
+        public TextMeshProUGUI PickUp = null;
         private bool showPickUpText;
 
         public void Start()
         {
-            SetUITextPosition();
             SetUIText();
             showPickUpText = false;
         }
@@ -29,7 +29,6 @@ namespace Assets.Standard_Assets.Scripts
 
         public void FixedUpdate()
         {
-            SetUITextPosition();
             SetUIText();
             ShowPickUpText();
         }
@@ -46,13 +45,6 @@ namespace Assets.Standard_Assets.Scripts
             }
         }
 
-        private void SetUITextPosition()
-        {
-            Health.rectTransform.SetPositionAndRotation(new Vector3(90, 480, 0), new Quaternion(0, 0, 0, 0));
-            Ammo.rectTransform.SetPositionAndRotation(new Vector3(90, 450, 0), new Quaternion(0, 0, 0, 0));
-            Reload.rectTransform.SetPositionAndRotation(new Vector3(700, 240, 0), new Quaternion(0, 0, 0, 0));
-        }
-
         private void SetUIText()
         {
             Health.text = "Current Health: " + Player.GetInstance().CurrentHealth.ToString();
@@ -60,22 +52,16 @@ namespace Assets.Standard_Assets.Scripts
 
             if (Player.GetInstance().AmmoCount <= Math.Floor(Player.GetInstance().AmmoCapacity * 0.2))
             {
-                Reload.text = "(R) Reload";
+                Reload.color = Color.white;
             }
             else
             {
-                Reload.text = "";
+                Reload.color = Color.clear;
             }
         }
 
-        public void DisplayPickUpText()
-        {
-            showPickUpText = true;
-        }
+        public void DisplayPickUpText() => showPickUpText = true;
 
-        public void HidePickUpText()
-        {
-            showPickUpText = false;
-        }
+        public void HidePickUpText() => showPickUpText = false;
     }
 }

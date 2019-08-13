@@ -13,23 +13,20 @@ namespace Assets.Standard_Assets.Items
 
         private UI FindUI() => FindObjectOfType<UI>();
 
-        private void OnTriggerEnter(Collider other)
+        public override void Interact()
         {
-            if (other.GetIsPlayerCollider())
-            {
-                if (itemModel != null)
-                {
-                    baseStat.ApplyStat();
-                    Destroy(itemModel);
-                }
-            }
+            baseStat.ApplyStat();
+            Destroy(itemModel);
         }
 
         private void OnMouseOver()
         {
-            if(Vector3.Distance(transform.position, Player.GetInstance().position) <= radius)
+            var distance = Vector3.Distance(transform.position, Player.GetInstance().position);
+
+            if (distance <= radius && itemModel != null)
             {
                 FindUI().DisplayPickUpText();
+                Debug.Log("Distance as from BaseStatItem: " + distance);
             }
             else
             {

@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using Assets.Standard_Assets.Classes;
+﻿using Assets.Standard_Assets.Classes;
+using UnityEngine;
 
-public class Level {
+public static class Level {
 
     private enum Difficulty { Easy = 1, Normal = 3, Hard = 5 }
 
@@ -19,31 +18,29 @@ public class Level {
         Nine = 35
     }
 
-    private static readonly Level INSTANCE = new Level();
+    public static bool IsLevelComplete { get; private set; } = false;
+    public static bool IsGameRunning { get; set; } = true;
 
-    private int NumOfEnemies = 0;
+    private static int NumOfEnemies = 0;
 
-    private Level()
+    public static void ResetToDefault()
     {
-
+        NumOfEnemies = 0;
+        IsGameRunning = true;
+        IsLevelComplete = false;
     }
 
-    public static Level GetInstance()
-    {
-        return INSTANCE;
-    }
-
-    public int GetEnemyCount()
+    public static int GetEnemyCount()
     {
         return NumOfEnemies;
     }
 
-    public void IncrementEnemyCount()
+    public static void IncrementEnemyCount()
     {
         NumOfEnemies++;
     }
 
-    public void DecrementEnemyCount()
+    public static void DecrementEnemyCount()
     {
         --NumOfEnemies;
 
@@ -51,6 +48,7 @@ public class Level {
         {
             //Do something to spawn portal to next room.
             GameObject.Instantiate(ResourceLoader.GetPortal(), new Vector3(45,2,45), Quaternion.identity);
+            IsLevelComplete = true;
         }
     }
 

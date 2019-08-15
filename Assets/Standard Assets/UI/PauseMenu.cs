@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game.Settings;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -40,12 +41,16 @@ public class PauseMenu : MonoBehaviour
 
     public void Continue()
     {
+        
         pauseMenu.SetActive(false);
         Level.IsGameRunning = true;
         Time.timeScale = 1f;
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if (!Settings.SeeMapGeneration)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     public void ReturnToMenu()

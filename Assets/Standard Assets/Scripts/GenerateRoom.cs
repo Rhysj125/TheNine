@@ -6,14 +6,14 @@ using UnityEngine;
 using UnityEngine.AI;
 using Game.Settings;
 
-public class GenerateRoom : MonoBehaviour {
+public class GenerateRoom : MonoBehaviour
+{
 
     public int floorSize = 9;
-    public bool[,] grid;
-	public float probabilityModifier = 0.8f;
-	private List<GameObject> floorTiles;
-	public GameObject walls;
-	public System.Random rand = new System.Random();
+    public float probabilityModifier = 0.8f;
+    private List<GameObject> floorTiles;
+    public GameObject walls;
+    public System.Random rand = new System.Random();
     public const int ROOM_SIZE = 10;
 
     public NavMeshSurface surface;
@@ -24,7 +24,6 @@ public class GenerateRoom : MonoBehaviour {
 
         SpawnPlayer();
         CreateRoom();
-        surface.BuildNavMesh();
 
         if (Settings.SpawnEnemies)
         {
@@ -35,34 +34,46 @@ public class GenerateRoom : MonoBehaviour {
         Time.timeScale = 1f;
     }
 
+    private void Update()
+    {
+        if (Settings.SeeMapGeneration)
+        {
+            if (Input.anyKey)
+            {
+                RebuildRoom();
+            }
+        }
+    }
+
     // Use this for initialization
     public void CreateRoom()
     {
-        grid = new bool[floorSize, floorSize];
-
-        mapRoom();
-        buildMap();
+        var mapGrid = mapRoom();
+        BuildMap(mapGrid);
+        surface.BuildNavMesh();
     }
 
-    private void mapRoom()
-	{
+    private int[,] mapRoom()
+    {
+        int[,] grid = new int[floorSize, floorSize]; ;
 
-		Queue<int[]> checkedPositions = new Queue<int[]>();
-		Queue<int[]> positionsToCheck = new Queue<int[]>();
-		Queue<int[]> nextPassCheck = new Queue<int[]>();
+        //Three queues of positions
+        Queue<int[]> checkedPositions = new Queue<int[]>();
+        Queue<int[]> positionsToCheck = new Queue<int[]>();
+        Queue<int[]> nextPassCheck = new Queue<int[]>();
 
-		int x = grid.GetLength(0) / 2;
-		int y = grid.GetLength(1) / 2;
-		float probability = 1;
-		Boolean mapEnd = false;
+        int x = grid.GetLength(0) / 2;
+        int y = grid.GetLength(1) / 2;
+        float probability = 1f;
+        Boolean mapEnd = false;
 
-		int[] initialPosition = { x, y };
+        int[] initialPosition = { x, y };
         int loopCounter = 0;
         float decayStep = 0.2f;
 
-		positionsToCheck.Enqueue(initialPosition);
+        positionsToCheck.Enqueue(initialPosition);
 
-		while (!mapEnd)
+        while (!mapEnd)
         {
             while (positionsToCheck.Count != 0)
             {
@@ -72,9 +83,9 @@ public class GenerateRoom : MonoBehaviour {
                 x = currentPosition[0];
                 y = currentPosition[1];
 
-                if (rand.NextDouble() < probability)
+                if (rand.NextDouble() < probability || (x == initialPosition[0] && y == initialPosition[1]))
                 {
-                    grid[x, y] = true;
+                    grid[x, y] = 2;
 
                     int[][] newPositions = { x < grid.GetLength(0) - 1 ? new int[] { x + 1, y} : null,
                                             x > 0 ? new int[] { x - 1, y} : null,
@@ -101,7 +112,7 @@ public class GenerateRoom : MonoBehaviour {
                 }
                 else
                 {
-                    grid[x, y] = false;
+                    grid[x, y] = 1;
                 }
             }
 
@@ -121,31 +132,37 @@ public class GenerateRoom : MonoBehaviour {
 
             loopCounter++;
         }
+
+        return grid;
     }
 
     private float CalculateProbability(int loopCounter, float decayStep)
     {
         // x * 0.2(1 - e^2x) + 1
-        float probability;
-        float decayX = loopCounter * decayStep;
-        probability = (float)(decayX * 0.2f * (1.0f - Math.Exp(2f * decayX)) + 1.0f);
-        return probability;
+        if (loopCounter < 4)
+        {
+            float probability;
+            float decayX = loopCounter * decayStep;
+            probability = (float)(decayX * probabilityModifier * (1.0f - Math.Exp(2f * decayX)) + 1.0f);
+            return probability;
+        }
+        return (float)rand.Next(30, 60) / 100;
     }
 
-    private void buildMap()
+    private void BuildMap(int[,] grid)
     {
         for (int i = 0; i < grid.GetLength(0) - 1; i++)
         {
             for (int j = 0; j < grid.GetLength(1) - 1; j++)
             {
-                if (grid[i, j])
+                if (grid[i, j] == 2)
                 {
                     GameObject component = Instantiate(getFloorTile(), new Vector3((i * ROOM_SIZE), 0, (j * ROOM_SIZE)), Quaternion.identity);
                     component.transform.parent = transform;
                 }
-                else
+                else if (grid[i, j] == 1)
                 {
-                    GameObject component = Instantiate(walls, new Vector3((i * ROOM_SIZE) - ROOM_SIZE/2, ROOM_SIZE/2, (j * ROOM_SIZE)), Quaternion.identity);
+                    GameObject component = Instantiate(walls, new Vector3((i * ROOM_SIZE) - ROOM_SIZE / 2, ROOM_SIZE / 2, (j * ROOM_SIZE)), Quaternion.identity);
                     component.transform.parent = transform;
                 }
             }
@@ -154,13 +171,29 @@ public class GenerateRoom : MonoBehaviour {
 
     private void SpawnPlayer()
     {
-        GameObject player = ResourceLoader.GetPlayer();
+        Vector3 startingPosition;
 
         int mapMiddle = (ROOM_SIZE * floorSize) / 2;
 
-        Vector3 startingPosition = new Vector3(mapMiddle, 1, mapMiddle);
+        if (!Settings.SeeMapGeneration)
+        {
+            GameObject player = ResourceLoader.GetPlayer();
 
-        Instantiate(player, startingPosition, Quaternion.identity);
+            startingPosition = new Vector3(mapMiddle, 1, mapMiddle);
+
+            Instantiate(player, startingPosition, Quaternion.identity);
+        }
+        else
+        {
+            startingPosition = new Vector3(mapMiddle, 150, mapMiddle);
+            var rotation = new Quaternion(90, 0, 0, 0);
+
+
+            var camera = new GameObject().AddComponent<Camera>();
+
+            camera.transform.position = startingPosition;
+            camera.transform.rotation = Quaternion.Euler(90, 0, 0);
+        }
     }
 
     private void SpawnEnemies()
@@ -183,8 +216,22 @@ public class GenerateRoom : MonoBehaviour {
         Level.IncrementEnemyCount();
     }
 
-	private GameObject getFloorTile()
-	{
-		return floorTiles.ElementAt(rand.Next(0, floorTiles.Count()));
-	}
+    private GameObject getFloorTile()
+    {
+        return floorTiles.ElementAt(rand.Next(0, floorTiles.Count()));
+    }
+
+    public void RebuildRoom()
+    {
+        surface.RemoveData();
+
+        var objs = GetComponentsInParent<Transform>();
+
+        foreach (Transform child in transform)
+        {            
+                GameObject.Destroy(child.gameObject);
+        }
+
+        CreateRoom();
+    }
 }

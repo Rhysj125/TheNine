@@ -1,5 +1,6 @@
 using Assets.Standard_Assets;
 using Assets.Standard_Assets.Interfaces;
+using Game.Settings;
 using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;

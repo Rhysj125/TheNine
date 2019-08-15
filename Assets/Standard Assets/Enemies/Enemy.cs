@@ -40,7 +40,7 @@ namespace Assets.Standard_Assets.Classes
         {
             Instantiate(gameObject, position, rotation);
             
-            Level.GetInstance().IncrementEnemyCount();
+            Level.IncrementEnemyCount();
         }
 
         public virtual void TakeDamage(float damage)
@@ -97,7 +97,7 @@ namespace Assets.Standard_Assets.Classes
         {
             Vector3 currentPosition = Model.transform.position;
 
-            Level.GetInstance().DecrementEnemyCount();
+            Level.DecrementEnemyCount();
 
             Destroy(Model);
 

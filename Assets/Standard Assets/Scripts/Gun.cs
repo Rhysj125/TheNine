@@ -37,22 +37,25 @@ namespace Assets.Standard_Assets.Scripts
 
         public void Update()
         {
-            fireRate = Player.GetInstance().FireRate;
-
-            if (Time.time >= nextTimeToFire)
+            if (Level.IsGameRunning)
             {
-                if (IsReloading)
-                {
-                    audioSourceReload.Stop();
-                    IsReloading = false;
-                }
+                fireRate = Player.GetInstance().FireRate;
 
-                if (Input.GetButton("Fire1"))
+                if (Time.time >= nextTimeToFire)
                 {
-                    nextTimeToFire = Time.time + 1f / fireRate;
-                    Shoot();
+                    if (IsReloading)
+                    {
+                        audioSourceReload.Stop();
+                        IsReloading = false;
+                    }
 
-                    audioSourceGunShot.PlayOneShot(GunShotSound);
+                    if (Input.GetButton("Fire1"))
+                    {
+                        nextTimeToFire = Time.time + 1f / fireRate;
+                        Shoot();
+
+                        audioSourceGunShot.PlayOneShot(GunShotSound);
+                    }
                 }
             }
         }

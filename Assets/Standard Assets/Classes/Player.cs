@@ -43,6 +43,11 @@ public class Player : IPlayer, IDamageable
 
     private Player()
     {
+        ResetToDefault();
+    }
+
+    public void ResetToDefault()
+    {
         MaxHealthPoints = 100;
         CurrentHealth = MaxHealthPoints;
         ArmorMultiplier = 1.2f;

@@ -9,24 +9,23 @@ namespace Assets.Standard_Assets.Items
     {
         [SerializeField]
         public BaseStatModifier baseStat;
-        public GameObject itemModel;
 
         private UI FindUI() => FindObjectOfType<UI>();
 
         public override void Interact()
         {
             baseStat.ApplyStat();
-            Destroy(itemModel);
+            Destroy(gameObject);
+            FindUI().HidePickUpText();
         }
 
         private void OnMouseOver()
         {
             var distance = Vector3.Distance(transform.position, Player.GetInstance().position);
 
-            if (distance <= radius && itemModel != null)
+            if (distance <= radius)
             {
                 FindUI().DisplayPickUpText();
-                Debug.Log("Distance as from BaseStatItem: " + distance);
             }
             else
             {

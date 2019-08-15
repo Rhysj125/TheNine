@@ -134,54 +134,55 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 		private void Update()
 		{
-            movementSettings.ForwardSpeed = Player.GetInstance().MovementSpeed;
-
-            RotateView();
-
-            if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
+            if (Level.IsGameRunning)
             {
-                m_Jump = true;
-            }
+                movementSettings.ForwardSpeed = Player.GetInstance().MovementSpeed;
 
-            if (Input.GetMouseButtonDown(1))
-            {
-                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
+                RotateView();
 
-                if (Physics.Raycast(ray, out hit, 2))
+                if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
                 {
-                    Interactable interactable = hit.collider.GetComponent<Interactable>();
+                    m_Jump = true;
+                }
 
-                    if (interactable != null)
+                if (Input.GetMouseButtonDown(1))
+                {
+                    Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
+
+                    if (Physics.Raycast(ray, out hit, 2))
                     {
-                        SetFocus(interactable);
+                        Interactable interactable = hit.collider.GetComponent<Interactable>();
+
+                        if (interactable != null)
+                        {
+                            SetFocus(interactable);
+                        }
                     }
                 }
-            }
-            else if (Input.GetMouseButtonDown(0))
-            {
-                RemoveFocus();
-            }
-
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                Player.GetInstance().Reload();
-            }
-            else if (Input.GetKeyDown(KeyCode.E))
-            {
-                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-
-                if (Physics.Raycast(ray, out RaycastHit hit))
+                else if (Input.GetMouseButtonDown(0))
                 {
-                    var target = hit.collider.GetComponent<Interactable>();
+                    RemoveFocus();
+                }
 
-                    float distance = Vector3.Distance(Player.GetInstance().position, target.transform.position);
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    Player.GetInstance().Reload();
+                }
+                else if (Input.GetKeyDown(KeyCode.E))
+                {
+                    Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
-                    Debug.Log("Distance as from PlayerController: " + distance);
-
-                    if (distance <= target.radius)
+                    if (Physics.Raycast(ray, out RaycastHit hit))
                     {
-                        target.Interact();
+                        var target = hit.collider.GetComponent<Interactable>();
+
+                        float distance = Vector3.Distance(Player.GetInstance().position, target.transform.position);
+
+                        if (distance <= target.radius)
+                        {
+                            target.Interact();
+                        }
                     }
                 }
             }

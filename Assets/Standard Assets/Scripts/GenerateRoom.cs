@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+﻿using Assets.Standard_Assets.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.AI;
-using Assets.Standard_Assets.Classes;
-using Assets.Standard_Assets.Scripts;
+using Game.Settings;
 
 public class GenerateRoom : MonoBehaviour {
 
@@ -25,7 +25,14 @@ public class GenerateRoom : MonoBehaviour {
         SpawnPlayer();
         CreateRoom();
         surface.BuildNavMesh();
-        //SpawnEnemies();
+
+        if (Settings.SpawnEnemies)
+        {
+            SpawnEnemies();
+        }
+
+        Level.IsGameRunning = true;
+        Time.timeScale = 1f;
     }
 
     // Use this for initialization

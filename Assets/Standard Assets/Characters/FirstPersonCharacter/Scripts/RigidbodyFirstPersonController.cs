@@ -1,15 +1,15 @@
 using Assets.Standard_Assets;
+using Assets.Standard_Assets.Enums;
 using Assets.Standard_Assets.Interfaces;
-using Game.Settings;
 using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
-	[RequireComponent(typeof (Rigidbody))]
+    [RequireComponent(typeof (Rigidbody))]
 	[RequireComponent(typeof (CapsuleCollider))]
-	public class RigidbodyFirstPersonController : MonoBehaviour, IPlayer
+	public class RigidbodyFirstPersonController : MonoBehaviour, IPlayer, IDamageable
 	{
 
         public Interactable focus;
@@ -122,8 +122,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			}
 		}
 
+        /// <summary>
+        /// This should be not used. Player state should be managed inside of <see cref="Player"/>
+        /// </summary>
+        public int BaseHealth => throw new NotImplementedException();
 
-		private void Start()
+        private void Start()
 		{
             movementSettings.ForwardSpeed = Player.GetInstance().MovementSpeed;
 
@@ -331,9 +335,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			}
 		}
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, DamageType damageType)
         {
-            Player.GetInstance().TakeDamage(damage);
+            Player.GetInstance().TakeDamage(damage, damageType);
         }
 
         public void Destory()

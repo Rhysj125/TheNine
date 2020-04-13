@@ -1,14 +1,14 @@
-﻿using System;
-using Assets.Standard_Assets.Classes;
-using UnityEngine;
+﻿using Assets.Standard_Assets.Classes;
+using Assets.Standard_Assets.Enums;
+using System;
 
 namespace Assets.Standard_Assets.Scripts
 {
     class MeleeEnemy : Enemy
     {
-        public override void TakeDamage(float damage)
+        public override void TakeDamage(int damage, DamageType damageType)
         {
-            base.TakeDamage(damage * 0.5f);
+            base.TakeDamage(Convert.ToInt32(Math.Floor(damage * 0.5f)));
         }
     }
 }

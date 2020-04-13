@@ -1,18 +1,19 @@
 ﻿using Assets.Standard_Assets.Classes;
-using System;
-using System.Collections.Generic;
+using Assets.Standard_Assets.Enums;
+using Assets.Standard_Assets.Interfaces;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace Assets.Standard_Assets.Enemies
 {
-    class ExplosiveEnemy : Enemy
+    class ExplosiveEnemy : Enemy, IExplosive
     {
-        public readonly float EXPLOSION_RANGE = 10;
-        public readonly float DETONATION_RANGE = 2;
+        public float ExplosiveRadius => 10f;
+        public int ExplosiveDamage => 10;
 
-        public float ExplosionDamage;
+        public bool IsExploding { get; set; }
+
+        public const float DetonationRange = 2;
 
         protected override void Move()
         {
@@ -38,12 +39,28 @@ namespace Assets.Standard_Assets.Enemies
         protected override void Die(bool isPlayerKill = false)
         {
             base.Die(isPlayerKill);
-
-            float distanceBetweenEnemyAndPlayer = Vector3.Distance(this.transform.position, Player.GetInstance().position);
-
-            if (distanceBetweenEnemyAndPlayer <= EXPLOSION_RANGE)
+            if (!IsExploding)
             {
-                Player.GetInstance().TakeExplosiveDamage((int) ExplosionDamage);
+                Explode();
+            }
+        }
+
+        public void Explode()
+        {
+            Destory();
+            IsExploding = true;
+
+            var colliders = Physics
+                .OverlapSphere(transform.position, ExplosiveRadius);
+
+            var damagables = colliders
+                .Select(c => c.GetComponent<IDamageable>())
+                .Where(d => d != null)
+                .ToArray();
+
+            foreach (var damagable in damagables)
+            {
+                damagable?.TakeDamage(ExplosiveDamage, DamageType.Explosive);
             }
         }
     }

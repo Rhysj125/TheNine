@@ -1,24 +1,29 @@
-﻿using System;
+﻿using Assets.Standard_Assets.Enums;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Assets.Standard_Assets.Classes
 {
-    public abstract class Enemy : MonoBehaviour
+    public abstract class Enemy : MonoBehaviour, IDamageable
     {
-        private const int dropChance = 75;
+        protected virtual int DropChance => 75;
 
-        //Movement properties
-        public float BaseHealth = 1;
-        public float MovementSpeed = 0.02f;
+        // Health
+        public virtual int BaseHealth => 1;
+        private float remainingHealth;
 
-        //Attacking properties
-        public int Damage = 10;
-        public float AttackRange = 3f;
-        public float ActionRate = 3f;
+        // Movement
+        protected virtual float MovementSpeed => 0.02f;
+
+        // Attack
+        protected virtual int Damage => 10;
+        protected virtual float AttackRange => 3f;
+        protected virtual float ActionRate => 3f;
+
         private float nextAction = 0f;
 
-        //Others
+        // Others
         public GameObject Model;
         protected NavMeshAgent agent;
 
@@ -27,6 +32,7 @@ namespace Assets.Standard_Assets.Classes
 
         protected void Start()
         {
+            remainingHealth = BaseHealth;
             agent = Model.GetComponent<NavMeshAgent>();
         }
 
@@ -43,11 +49,11 @@ namespace Assets.Standard_Assets.Classes
             Level.IncrementEnemyCount();
         }
 
-        public virtual void TakeDamage(float damage)
+        public virtual void TakeDamage(int damage, DamageType damageType)
         {
-            BaseHealth -= damage;
+            remainingHealth -= damage;
 
-            if(BaseHealth <= 0)
+            if(remainingHealth <= 0)
             {
                 Die(true);
             }
@@ -84,7 +90,7 @@ namespace Assets.Standard_Assets.Classes
                 if (Math.Abs(Vector3.Distance(transform.position, Player.GetInstance().position)) <= AttackRange)
                 {
                     IsAttacking = true;
-                    Player.GetInstance().TakeDamage(Damage);
+                    Player.GetInstance().TakeDamage(Damage, DamageType.Melee);
                 }
                 else
                 {
@@ -105,7 +111,7 @@ namespace Assets.Standard_Assets.Classes
 
             if (isPlayerKill)
             {
-                if (randomChance >= dropChance)
+                if (randomChance >= DropChance)
                 {
                     GameObject drop = Instantiate(ResourceLoader.GetItems()[0], currentPosition, Quaternion.identity);
 
@@ -116,6 +122,16 @@ namespace Assets.Standard_Assets.Classes
                     drop.GetComponent<Rigidbody>().AddForce(new Vector3(new System.Random().Next(5), new System.Random().Next(5), new System.Random().Next(5)), ForceMode.VelocityChange);
                 }
             }
+        }
+
+        public void TakeDamage(int damage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Destory()
+        {
+            throw new NotImplementedException();
         }
     }
 }

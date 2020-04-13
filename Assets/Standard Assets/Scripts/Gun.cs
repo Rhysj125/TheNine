@@ -1,6 +1,5 @@
-﻿using Assets.Standard_Assets.Classes;
+﻿using Assets.Standard_Assets.Enums;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Assets.Standard_Assets.Scripts
 {
@@ -70,13 +69,11 @@ namespace Assets.Standard_Assets.Scripts
             RaycastHit hit;
             if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
             {
-                GameObject target = hit.transform.GetComponent<GameObject>();
-
-                Enemy enemy = hit.transform.GetComponent<Enemy>();
+                var enemy = hit.transform.GetComponent<IDamageable>();
 
                 if (enemy != null)
                 {
-                    enemy.TakeDamage(damage);
+                    enemy.TakeDamage((int) damage, DamageType.Bullet);
                 }
 
                 GameObject ImpactGameObject = Instantiate(ImpactEffect, hit.point, Quaternion.LookRotation(hit.normal));

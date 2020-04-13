@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Assets.Standard_Assets.Enums;
 
 namespace Assets.Standard_Assets
 {
     public interface IDamageable
     {
-        void TakeDamage(int damage);
+        int BaseHealth { get; }
+
+        void TakeDamage(int amount, DamageType damageType);
         void Destory();
     }
 }

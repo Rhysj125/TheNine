@@ -1644,8 +1644,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37af87a82fe08284fbcdacfa6a1cad0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorSize: 9
-  probabilityModifier: 0.2
+  floorSize: 30
+  probabilityModifier: 0.05
   walls: {fileID: 151518, guid: 7e8dedf22ad4af74ebdb12c170da9998, type: 3}
   surface: {fileID: 973460459}
 --- !u!1001 &1337510083

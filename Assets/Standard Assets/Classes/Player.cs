@@ -1,14 +1,13 @@
 ﻿using Assets.Standard_Assets;
+using Assets.Standard_Assets.Enums;
 using Assets.Standard_Assets.Interfaces;
 using System;
 using UnityEngine;
 
-public enum DamageType { Default, Melee, Bullet, Explosive }
-
 public class Player : IPlayer, IDamageable
 {
 
-    private static readonly Player INSTANCE = new Player();
+    private static Player Instance;
 
     public event EventHandler OnReload;
 
@@ -22,7 +21,7 @@ public class Player : IPlayer, IDamageable
     public Vector3 position { get; set; }
 
     //Health related stats
-    public int MaxHealthPoints { get; private set; }
+    public int BaseHealth { get; private set; }
     public int CurrentHealth { get; private set; }
     public float ArmorMultiplier { get; private set; }
 
@@ -38,7 +37,12 @@ public class Player : IPlayer, IDamageable
 
     public static Player GetInstance()
     {
-        return INSTANCE;
+        if (Instance == null)
+        {
+            Instance = new Player();
+        }
+
+        return Instance;
     }
 
     private Player()
@@ -48,9 +52,9 @@ public class Player : IPlayer, IDamageable
 
     public void ResetToDefault()
     {
-        MaxHealthPoints = 100;
-        CurrentHealth = MaxHealthPoints;
+        BaseHealth = 100;
         ArmorMultiplier = 1.2f;
+        CurrentHealth = BaseHealth;
 
         AmmoCapacity = 10;
         AmmoCount = AmmoCapacity;
@@ -61,38 +65,29 @@ public class Player : IPlayer, IDamageable
         FireRate = 10;
     }
 
-    /// <summary>
-    /// Player takes damage.
-    /// </summary>
-    /// <param name="damage"></param>
-    /// <returns></returns>
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, DamageType damageType)
     {
         if (damage > 0)
         {
-            CurrentHealth -= (int) Math.Floor(damage * ArmorMultiplier);
+            switch (damageType)
+            {
+                case DamageType.Melee:
+                case DamageType.Bullet:
+                    CurrentHealth -= Convert.ToInt32(Math.Floor(damage / ArmorMultiplier));
+                    break;
+
+                case DamageType.Explosive:
+                    CurrentHealth -= damage;
+                    break;
+
+                default:
+                    throw new NotImplementedException($"Damage Type: {damageType} not implemented");
+            }
         }
 
         if(CurrentHealth <= 0)
         {
             //Die();
-        }
-    }
-
-    /// <summary>
-    /// Explosive damage negates any armor held by the Player, dealing more damage.
-    /// </summary>
-    /// <param name="damage"></param>
-    public void TakeExplosiveDamage(int damage)
-    {
-        if(damage > 0)
-        {
-            CurrentHealth -= damage;
-        }
-
-        if(CurrentHealth <= 0)
-        {
-            //Die()
         }
     }
 
@@ -110,13 +105,13 @@ public class Player : IPlayer, IDamageable
 
     public void IncreaseMaxHealth(int additionalHealth)
     {
-        if(MaxHealthPoints + additionalHealth < MAX_HEALTH)
+        if(BaseHealth + additionalHealth < MAX_HEALTH)
         {
-            MaxHealthPoints += additionalHealth;
+            BaseHealth += additionalHealth;
         }
         else
         {
-            MaxHealthPoints = MAX_HEALTH;
+            BaseHealth = MAX_HEALTH;
         }
     }
 
